@@ -1,0 +1,47 @@
+.App {
+  text-align: center;
+  background-color: rgba(33, 37, 41, 0.425);
+  background-color: rgb(23, 38, 53);
+}
+
+.home-container {
+  margin-top: 25px;
+  min-height: 100% !important;
+  height: 100vh !important;
+  background-color: rgb(23, 38, 53);
+}
+
+.watch-list {
+  margin-right: 25px;
+  border: solid black;
+  min-height: 80vh !important;
+  background-color: rgb(191,193,194);
+}
+
+.portfolio {
+  border: solid black;
+  margin-left: 50px;
+  margin-right: 50px;
+  background-color: rgb(191,193,194);
+}
+
+.news {
+  margin-left: 15px;
+  border: solid black;
+  background-color: rgb(191,193,194);
+}
+
+.welcome-message {
+  color: white !important;
+}
+
+.nav-button-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center !important;
+  align-content: center;
+}
+
+.button {
+  margin-left: 20px;
+}
