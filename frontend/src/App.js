@@ -50,6 +50,7 @@ function App() {
       localStorage.setItem("auth-user", `${data.token}`);
       setIsLoggedIn(true);
       setUser(data.user);
+      
     }
   }
 

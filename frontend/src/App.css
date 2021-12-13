@@ -2,33 +2,49 @@
   text-align: center;
   background-color: rgba(33, 37, 41, 0.425);
   background-color: rgb(23, 38, 53);
+  background-size: cover;
 }
 
 .home-container {
+  color: white;
   margin-top: 25px;
-  min-height: 100% !important;
-  height: 100vh !important;
+  min-height: 100vh !important;
   background-color: rgb(23, 38, 53);
+  background-size: cover;
 }
 
-.watch-list {
-  margin-right: 25px;
+.watch-list.container {
+  margin-right: 50px;
   border: solid black;
   min-height: 80vh !important;
-  background-color: rgb(191,193,194);
+  background-color: rgba(191, 193, 194, 0.274);
+  border-radius: 40px;
+  padding: 0%;
+  overflow: scroll !important;
 }
 
 .portfolio {
   border: solid black;
-  margin-left: 50px;
+  margin-left: 80px;
   margin-right: 50px;
-  background-color: rgb(191,193,194);
+  min-width: 80vh;
+  background-color: rgba(191, 193, 194, 0.274);
+  min-height: 80vh !important;
+  border-radius: 5%;
 }
 
 .news {
   margin-left: 15px;
   border: solid black;
-  background-color: rgb(191,193,194);
+  background-color: rgba(191, 193, 194, 0.274);
+  min-height: 80vh !important;
+  border-radius: 40px;
+
+}
+
+.navlink :hover {
+  background-color: white !important;
+
 }
 
 .welcome-message {
@@ -44,4 +60,13 @@
 
 .button {
   margin-left: 20px;
+}
+
+.div-label {
+  padding-top: 10px;
+}
+
+
+.vs-currency {
+  font-size: small;
 }

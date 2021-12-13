@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({isLoggedIn, handleLogout, handleLogin}) => {
+const Login = ({isLoggedIn, handleLogout, handleLogin}) => { 
+
+  const navigate = useNavigate()
 
   if (isLoggedIn) {
+    navigate('/')
     return <div>
       <button onClick={handleLogout}>Logout</button>
       <div>

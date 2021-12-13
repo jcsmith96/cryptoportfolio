@@ -30,7 +30,7 @@ let AppNav = (props) => {
         <div>
         <Navbar  expand="lg" variant="dark" bg="dark" className="nav-bar">
             <Container>
-                <Navbar.Brand as={Link} to="/">
+                <Navbar.Brand className ="navlink" as={Link} to="/">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Cryptocurrency_Logo.svg/633px-Cryptocurrency_Logo.svg.png"
                     width="30"
                     height="30"
@@ -51,13 +51,3 @@ let AppNav = (props) => {
 
     export default AppNav;
 
-{/* <Navbar bg="dark" variant="dark">
-    <Container>
-    <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-    <Nav className="me-auto">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#features">Features</Nav.Link>
-      <Nav.Link href="#pricing">Pricing</Nav.Link>
-    </Nav>
-    </Container>
-  </Navbar> */}
