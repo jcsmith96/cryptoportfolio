@@ -8,8 +8,7 @@ let Portfolio = () => {
 
     return (
         <Container className="portfolio" xs={6}>
-        <h5 className='div-label'>YOUR PORTFOLIO</h5>
-        <hr />
+        
         </Container>
     )
 

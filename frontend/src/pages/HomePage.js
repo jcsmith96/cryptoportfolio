@@ -1,18 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
 import UserContext from '../contexts/UserContext.js';
-import {Container, Col, Row} from 'react-bootstrap'
+import {Container, Col, Row, Dropdown, Button} from 'react-bootstrap'
 import Watchlist from '../components/Watchlist.js';
 import Portfolio from '../components/Portolio.js';
 import ArticleTeasers from '../components/ArticleTeasers.js';
 
 
-
-const HomePage = ({ isLoggedIn, handleLogout }) => {
+const HomePage = ({ isLoggedIn, coinList }) => {
   const userContext = useContext(UserContext);
   const { user } = userContext;
 
-  
   return (
     <Container fluid className="home-container">
       
@@ -20,7 +17,7 @@ const HomePage = ({ isLoggedIn, handleLogout }) => {
       user &&
       <Container>
           <Row>
-            <Col ><Watchlist></Watchlist></Col>
+            <Col ><Watchlist coinList={coinList}></Watchlist></Col>
             <Col ><Portfolio></Portfolio></Col>
             <Col ><ArticleTeasers></ArticleTeasers></Col>
           </Row>
@@ -34,7 +31,9 @@ const HomePage = ({ isLoggedIn, handleLogout }) => {
         
       </div>
       :
-      <div></div>
+      <div>
+        
+      </div>
     }
   </Container>
   );

@@ -11,8 +11,7 @@ let ArticleTeasers = () => {
 
     return (
         <Container className="news">
-           <h5 className='div-label'> NEWS </h5>
-           <hr />
+           
             </Container>
     )
 

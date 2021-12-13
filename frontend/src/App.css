@@ -11,23 +11,25 @@
   min-height: 100vh !important;
   background-color: rgb(23, 38, 53);
   background-size: cover;
+  overflow: hidden;
 }
 
 .watch-list.container {
   margin-right: 50px;
-  border: solid black;
+  /* border: solid silver .5px !important; */
+  width: 250x;
   min-height: 80vh !important;
   background-color: rgba(191, 193, 194, 0.274);
   border-radius: 40px;
   padding: 0%;
-  overflow: scroll !important;
+  position: relative;
+  
 }
 
 .portfolio {
   border: solid black;
   margin-left: 80px;
-  margin-right: 50px;
-  min-width: 80vh;
+  min-width: 70vh;
   background-color: rgba(191, 193, 194, 0.274);
   min-height: 80vh !important;
   border-radius: 5%;
@@ -39,6 +41,7 @@
   background-color: rgba(191, 193, 194, 0.274);
   min-height: 80vh !important;
   border-radius: 40px;
+  width: 250px !important;
 
 }
 
@@ -69,4 +72,54 @@
 
 .vs-currency {
   font-size: small;
+}
+
+.dailychange {
+  padding-left: 40px;
+  display: flex;
+  width: 200px;
+  align-items: baseline;
+  margin-right: 0px;
+  justify-content: space-evenly;
+}
+
+.small-font {
+  font-size: small;
+  padding-left: 15px
+}
+
+.watchlist-card {
+  display: flex;
+  justify-content: center;
+  border: solid silver .5px !important;
+}
+
+.negative {
+  color: red !important;
+}
+.positive {
+  color: green !important;
+}
+
+.coin-list-dropdown {
+  margin-top: 25px;
+  position: absolute;
+  overflow: visible !important;
+  
+}
+
+.watch-list-content {
+  overflow: scroll;
+}
+
+
+.close-button {
+  display: flex;
+  font-size: 10px;
+  align-content: left;
+}
+
+.dropdown-menu {
+  width: 20% !important;
+  overflow: scroll !important;
 }

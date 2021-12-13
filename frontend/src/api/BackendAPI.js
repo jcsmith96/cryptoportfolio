@@ -16,11 +16,16 @@ const fetchWatchList = async (token) => {
     return data
   }
 
-
+const deleteWatchItem = async (token, item_id) => {
+  const url = WATCHLIST_URL + `${item_id}`
+  await fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json', Authorization: `JWT ${token}`}})
+}
 
 
   const exportItems = {
     fetchWatchList,
+    deleteWatchItem,
+    
   }
   
   export default exportItems

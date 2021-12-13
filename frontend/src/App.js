@@ -4,12 +4,15 @@ import './App.css';
 
 //components
 import AppNav from './components/AppNav';
+import CoinDropDown from './components/CoinDropDown'
 
 // pages
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 
+//api
+import CoinGeckoAPI from './api/CoinGeckoAPI'
 
 
 import UserContext from './contexts/UserContext.js';
@@ -20,8 +23,11 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [ user, setUser ] = useState(null);
   const [error, setError] = useState(null);
-
+  const [coinList, setCoinList] = useState(null);
   
+
+
+  //effects
   useEffect(() => {
     const getUser = async () => {
       if (localStorage.getItem("auth-user") !== 'null') {
@@ -38,6 +44,19 @@ function App() {
     }
   }, [user])
 
+
+  useEffect(() => {
+    const getCoinList = async () => {
+      let data = await CoinGeckoAPI.fetchCoinlist()
+      setCoinList(data)
+    }
+    getCoinList()
+  }, [])
+
+
+ 
+
+// login/logout
   const handleLogin = async (evt) => {
     evt.preventDefault();
     let userObject = {
@@ -67,7 +86,7 @@ function App() {
         <UserContext.Provider value={{ user: user, setUser: handleLogin, error: error }}>
         <AppNav isLoggedIn={isLoggedIn} handleLogout={handleLogout} setUser={setUser} user={user}/>
           <Routes>
-            <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>} />
+            <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} coinList={coinList}/> } />
             <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} user={user} />} />
             <Route path="/signup" element={<SignupPage />} />
           </Routes>
