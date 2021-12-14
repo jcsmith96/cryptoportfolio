@@ -12,6 +12,7 @@ const SignupPage = (props) => {
       'username': evt.target.username.value,
       'password': evt.target.password.value,
     }
+    console.log(userObject)
     let response = await signupUser(userObject);
     let data = await response.json();
     if (data.error) {

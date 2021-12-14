@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+* {
+  font-family: 'Roboto', sans-serif !important;
+}
+
 .App {
   text-align: center;
   background-color: rgba(33, 37, 41, 0.425);
@@ -27,10 +33,11 @@
 }
 
 .portfolio {
+  color: white !important;
   border: solid black;
   margin-left: 80px;
   min-width: 70vh;
-  background-color: rgba(191, 193, 194, 0.274);
+  background-color: rgba(33,37,41); 
   min-height: 80vh !important;
   border-radius: 5%;
 }
@@ -126,3 +133,12 @@
   height: 250px;
 }
 
+
+.nav-link {
+  color:white !important;
+}
+
+.nav-link.active {
+  background-color: rgba(33,37,41) !important;
+  border-bottom-color: rgba(33,37,41) !important;
+}

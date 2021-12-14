@@ -14,7 +14,7 @@ let Watchlist = (props) => {
     const { user } = useContext(UserContext)
     const [watchlist, setWatchlist] = useState(null)
     const [watchlistData, setWatchlistData] = useState(null)
-    const [deleteUpdate, setDeleteUpdate] = useState(false)
+    const [triggerUpdate, setTriggerUpdate] = useState(false)
 
    
         useEffect(() => {
@@ -31,12 +31,11 @@ let Watchlist = (props) => {
                       setWatchlistData(values)
                     })  
                
-        }
+                }
             getLists() 
             }
-        }, [deleteUpdate])
+        }, [triggerUpdate])
 
-        console.log(watchlist)
 
         let renderWatchItems = () => {
                     if (watchlist && watchlistData) {
@@ -66,7 +65,7 @@ let Watchlist = (props) => {
                 }
        
     let handleAddWatchItem = async (event) => {
-            setDeleteUpdate(false)
+            setTriggerUpdate(false)
             event.preventDefault()
             let asset_id = event.target.id
             const itemObj = {
@@ -74,28 +73,31 @@ let Watchlist = (props) => {
                 asset_id: asset_id
             }
             await BackendAPI.addWatchItem(localStorage.getItem("auth-user"), itemObj)
-            setDeleteUpdate(true)
+            setTriggerUpdate(true)
         }
         
                                   
       let handleDeleteWatchItem = async (evt) => {
-            setDeleteUpdate(false)
+            setTriggerUpdate(false)
             let itemID = evt.target.id
             await BackendAPI.deleteWatchItem(localStorage.getItem("auth-user"), itemID)
-            setDeleteUpdate(true)
+            setTriggerUpdate(true)
       }
 
 
     return (
         <Container className="watch-list">
+            { user && 
             <div className="watch-list-content">
             
-            { watchlistData &&     
+            { watchlistData && 
+               
                 renderWatchItems()
             
             }
             
             </div>
+                }
             <CoinDropDown coinList={props.coinList} watchlist={watchlist} handleAddWatchItem={handleAddWatchItem}></CoinDropDown>
         </Container>
     )
