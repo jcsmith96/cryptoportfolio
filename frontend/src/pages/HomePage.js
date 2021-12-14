@@ -5,7 +5,6 @@ import Watchlist from '../components/Watchlist.js';
 import Portfolio from '../components/Portolio.js';
 import ArticleTeasers from '../components/ArticleTeasers.js';
 
-
 const HomePage = ({ isLoggedIn, coinList }) => {
   const userContext = useContext(UserContext);
   const { user } = userContext;

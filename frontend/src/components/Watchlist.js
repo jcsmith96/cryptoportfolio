@@ -15,6 +15,7 @@ let Watchlist = (props) => {
     const [watchlist, setWatchlist] = useState(null)
     const [watchlistData, setWatchlistData] = useState(null)
     const [deleteUpdate, setDeleteUpdate] = useState(false)
+
    
         useEffect(() => {
             if (user) {
@@ -35,9 +36,8 @@ let Watchlist = (props) => {
             }
         }, [deleteUpdate])
 
-     
-      
-        
+        console.log(watchlist)
+
         let renderWatchItems = () => {
                     if (watchlist && watchlistData) {
                         return watchlistData.map((x, i) => [x, watchlist[i]]).map((elem, index) => {
@@ -96,7 +96,7 @@ let Watchlist = (props) => {
             }
             
             </div>
-            <CoinDropDown coinList={props.coinList} handleAddWatchItem={handleAddWatchItem}></CoinDropDown>
+            <CoinDropDown coinList={props.coinList} watchlist={watchlist} handleAddWatchItem={handleAddWatchItem}></CoinDropDown>
         </Container>
     )
 }
