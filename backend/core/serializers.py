@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['id','username']
 
 ## Serializes new user sign ups that responds with the new user's information including a new token.
 class UserSerializerWithToken(serializers.ModelSerializer):

@@ -14,7 +14,6 @@ import SignupPage from './pages/SignupPage';
 //api
 import CoinGeckoAPI from './api/CoinGeckoAPI'
 
-
 import UserContext from './contexts/UserContext.js';
 import { getLoggedInUser, login } from './api/UserAPI';
 
@@ -53,9 +52,7 @@ function App() {
     getCoinList()
   }, [])
 
-
- 
-
+  
 // login/logout
   const handleLogin = async (evt) => {
     evt.preventDefault();
@@ -67,9 +64,8 @@ function App() {
     let data = await response.json();
     if (data.token) {
       localStorage.setItem("auth-user", `${data.token}`);
-      setIsLoggedIn(true);
       setUser(data.user);
-      
+      setIsLoggedIn(true);
     }
   }
 
@@ -86,7 +82,7 @@ function App() {
         <UserContext.Provider value={{ user: user, setUser: handleLogin, error: error }}>
         <AppNav isLoggedIn={isLoggedIn} handleLogout={handleLogout} setUser={setUser} user={user}/>
           <Routes>
-            <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} coinList={coinList}/> } />
+            <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} coinList={coinList} user={user}/> } />
             <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} user={user} />} />
             <Route path="/signup" element={<SignupPage />} />
           </Routes>

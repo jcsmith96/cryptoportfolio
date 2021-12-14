@@ -16,6 +16,23 @@ const fetchWatchList = async (token) => {
     return data
   }
 
+const addWatchItem = async (token, itemObj) => {
+    const url = WATCHLIST_URL
+    const init = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+
+      },
+      body: JSON.stringify(itemObj)
+    }
+    let response = await fetch(url, init)
+    let data = await response.json()
+    return data
+  }
+
+
 const deleteWatchItem = async (token, item_id) => {
   const url = WATCHLIST_URL + `${item_id}`
   await fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json', Authorization: `JWT ${token}`}})
@@ -25,7 +42,11 @@ const deleteWatchItem = async (token, item_id) => {
   const exportItems = {
     fetchWatchList,
     deleteWatchItem,
+    addWatchItem,
     
   }
   
   export default exportItems
+
+
+

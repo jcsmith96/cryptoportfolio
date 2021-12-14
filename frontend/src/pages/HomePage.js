@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import UserContext from '../contexts/UserContext.js';
-import {Container, Col, Row, Dropdown, Button} from 'react-bootstrap'
+import {Container, Col, Row} from 'react-bootstrap'
 import Watchlist from '../components/Watchlist.js';
 import Portfolio from '../components/Portolio.js';
 import ArticleTeasers from '../components/ArticleTeasers.js';

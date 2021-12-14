@@ -10,12 +10,10 @@ import CoinGeckoAPI from '../api/CoinGeckoAPI.js'
 //components
 import CoinDropDown from '../components/CoinDropDown.js'
 
-
 let Watchlist = (props) => {
     const { user } = useContext(UserContext)
     const [watchlist, setWatchlist] = useState(null)
     const [watchlistData, setWatchlistData] = useState(null)
-    const [pairedData, setPaired] = useState(null)
     const [deleteUpdate, setDeleteUpdate] = useState(false)
    
         useEffect(() => {
@@ -37,9 +35,9 @@ let Watchlist = (props) => {
             }
         }, [deleteUpdate])
 
-        if (watchlistData){
-       console.log(watchlistData.map((x, i) => [x, watchlist[i]]))
-        }
+     
+      
+        
         let renderWatchItems = () => {
                     if (watchlist && watchlistData) {
                         return watchlistData.map((x, i) => [x, watchlist[i]]).map((elem, index) => {
@@ -67,7 +65,17 @@ let Watchlist = (props) => {
                 
                 }
        
-    
+    let handleAddWatchItem = async (event) => {
+            setDeleteUpdate(false)
+            event.preventDefault()
+            let asset_id = event.target.id
+            const itemObj = {
+                user: user.id,
+                asset_id: asset_id
+            }
+            await BackendAPI.addWatchItem(localStorage.getItem("auth-user"), itemObj)
+            setDeleteUpdate(true)
+        }
         
                                   
       let handleDeleteWatchItem = async (evt) => {
@@ -88,7 +96,7 @@ let Watchlist = (props) => {
             }
             
             </div>
-            <CoinDropDown coinList={props.coinList}></CoinDropDown>
+            <CoinDropDown coinList={props.coinList} handleAddWatchItem={handleAddWatchItem}></CoinDropDown>
         </Container>
     )
 }
