@@ -24,3 +24,5 @@ class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
         fields = ['id', 'user', 'asset_id', 'quantity', 'date_purchased', 'price_purchased', 'closed', 'sold_assets' ]
+
+

@@ -39,23 +39,27 @@ let Watchlist = (props) => {
 
         let renderWatchItems = () => {
                     if (watchlist && watchlistData) {
-                        return watchlistData.map((x, i) => [x, watchlist[i]]).map((elem, index) => {
+                        return watchlistData.map((x, i) => [x, watchlist[i]]).map((elem) => {
                             let key = Object.keys(elem[0])[0]
                             if (elem[1]!==undefined){
                                 return <Card className="watchlist-card" bg="dark" key={elem[1].id}>
                                     <span className="close-button"> <CloseButton id={elem[1].id} onClick={handleDeleteWatchItem} variant="white" /></span>
-                                <Card.Body>
-                                    <Card.Title> 
-                                        {key.toUpperCase()}
-                                        <span className="vs-currency"> /USD</span></Card.Title>
-                                        <Card.Text>
+                                        <Card.Body>
+                                            <Card.Title> 
+                                            <div>
+                                            {key.toUpperCase()}
+                                            <span className="vs-currency"> /USD</span>
+                                            </div>
+                                            </Card.Title>
+                                        
+                                          <div className="watchlist-card-body">
                                             <h5>${elem[0][key].usd}</h5>
                                             <span className='small-font'>24hr </span>
                                             <span className={Number(elem[0][key].usd_24h_change) < 0 ? "negative" : "positive"}>
-                                                {Number(elem[0][key].usd_24h_change).toFixed(3)}%
+                                                  {Number(elem[0][key].usd_24h_change).toFixed(3)}%
                                                 </span>
-                                                
-                                        </Card.Text>
+                                                </div>
+                                       
                             </Card.Body>
                         </Card>
                             }

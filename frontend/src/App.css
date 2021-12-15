@@ -40,6 +40,7 @@
   background-color: rgba(33,37,41); 
   min-height: 80vh !important;
   border-radius: 5%;
+  overflow: scroll;
 }
 
 .news {
@@ -99,6 +100,7 @@
   display: flex;
   justify-content: center;
   border: solid silver .5px !important;
+  height: 135px;
 }
 
 .negative {
@@ -142,3 +144,45 @@
   background-color: rgba(33,37,41) !important;
   border-bottom-color: rgba(33,37,41) !important;
 }
+
+.card-body {
+  padding-top: 5px !important;
+}
+
+.title-card {
+  font-size: 10px;
+  height: 30px;
+}
+
+.position-card {
+  height: 100px;
+}
+
+.position-card-div {
+  display: flex !important;
+  gap: 20px
+}
+
+.title-card-div {
+  display: flex !important;
+  gap: 20px;
+  color:rgba(191, 193, 194, 0.562)
+}
+
+.pos-sum {
+  padding-top: 15px;
+  font-size: 25px;
+}
+
+.positive-pos-pnl {
+  color:green;
+}
+
+.negative-pos-pnl {
+  color: red;
+}
+
+.pos-sum {
+  display: flex !important;
+}
+
