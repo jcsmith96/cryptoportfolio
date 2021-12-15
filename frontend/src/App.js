@@ -4,7 +4,6 @@ import './App.css';
 
 //components
 import AppNav from './components/AppNav';
-import CoinDropDown from './components/CoinDropDown'
 
 // pages
 import HomePage from './pages/HomePage';

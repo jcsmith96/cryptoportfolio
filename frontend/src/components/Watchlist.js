@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Container, Card, CloseButton } from 'react-bootstrap'
-import { useNavigate, Link } from "react-router-dom"
 import UserContext from '../contexts/UserContext'
 
 //api
@@ -24,17 +23,20 @@ let Watchlist = (props) => {
                 let data = await BackendAPI.fetchWatchList(localStorage.getItem("auth-user")) 
                 setWatchlist(data)
                 
+                
                 let watchData = await data.map((elem) => {
                     return CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
+                
                 })
+           
                 Promise.all(watchData).then((values) => {
                       setWatchlistData(values)
                     })  
-               
+              
                 }
             getLists() 
             }
-        }, [triggerUpdate])
+        }, [triggerUpdate, user])
 
 
         let renderWatchItems = () => {

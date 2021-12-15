@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import UserContext from '../contexts/UserContext.js';
 import {Container, Col, Row} from 'react-bootstrap'
 import Watchlist from '../components/Watchlist.js';
@@ -16,9 +16,9 @@ const HomePage = ({ isLoggedIn, coinList }) => {
       user &&
       <Container>
           <Row>
-            <Col ><Watchlist coinList={coinList}></Watchlist></Col>
-            <Col ><Portfolio></Portfolio></Col>
-            <Col ><ArticleTeasers></ArticleTeasers></Col>
+            <Col className="homepage-container"><Watchlist coinList={coinList}></Watchlist></Col>
+            <Col ><Portfolio coinList={coinList}></Portfolio></Col>
+            <Col className="homepage-container"><ArticleTeasers></ArticleTeasers></Col>
           </Row>
       </Container>
     }

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
-import { Navbar, Nav, Button, Container, NavbarBrand} from 'react-bootstrap'
+import { Navbar, Nav, Button, Container} from 'react-bootstrap'
 import { useNavigate, Link } from "react-router-dom"
-import { useState } from 'react'
 import UserContext from '../contexts/UserContext'
 
 
@@ -37,7 +36,7 @@ let AppNav = (props) => {
                     className="d-inline-block align-top"
                     alt="logo"
                     />
-                     CRYPTFOLIO
+                     0xFOLIO
                     </Navbar.Brand>
             
                     { renderLoginLogout() }

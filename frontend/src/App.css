@@ -24,13 +24,14 @@
   margin-right: 50px;
   /* border: solid silver .5px !important; */
   width: 250px;
-  min-height: 80vh !important;
+  height: 80vh !important;
   background-color: rgba(191, 193, 194, 0.274);
   border-radius: 40px;
   padding: 0%;
   position: relative;
-  
 }
+
+
 
 .portfolio {
   color: white !important;
@@ -38,7 +39,7 @@
   margin-left: 80px;
   min-width: 70vh;
   background-color: rgba(33,37,41); 
-  min-height: 80vh !important;
+  height: 80vh !important;
   border-radius: 5%;
   overflow: scroll;
 }
@@ -47,7 +48,7 @@
   margin-left: 15px;
   border: solid black;
   background-color: rgba(191, 193, 194, 0.274);
-  min-height: 80vh !important;
+  height: 80vh !important;
   border-radius: 40px;
   width: 250px !important;
 
@@ -80,6 +81,8 @@
 
 .vs-currency {
   font-size: small;
+  color:rgba(191, 193, 194, 0.562)
+
 }
 
 .dailychange {
@@ -93,7 +96,8 @@
 
 .small-font {
   font-size: small;
-  padding-left: 15px
+  padding-left: 15px;
+  color:rgba(191, 193, 194, 0.562);
 }
 
 .watchlist-card {
@@ -155,7 +159,7 @@
 }
 
 .position-card {
-  height: 100px;
+  height: 125px;
 }
 
 .position-card-div {
@@ -186,3 +190,33 @@
   display: flex !important;
 }
 
+.homepage-container.col {
+  width: 200px;
+}
+
+
+.form-buttons {
+  margin-top: 30px;
+}
+
+.new-pos-div {
+  display: flex;
+  align-items: center;
+}
+
+.new-pos-form {
+  margin-top: 50px !important;
+  margin: auto;
+  width: 300px;
+}
+
+.add-pos-drop {
+  width: 300px !important;
+  overflow: scroll !important;
+  bottom: auto;
+  height: 250px;
+}
+
+.form-asset-name {
+  margin-top: 10px;
+}

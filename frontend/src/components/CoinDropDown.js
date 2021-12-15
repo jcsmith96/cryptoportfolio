@@ -1,11 +1,11 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState } from 'react'
 import { Dropdown, InputGroup, FormControl} from 'react-bootstrap'
-import AddItemContext from '../contexts/AddItemContext'
+
 
 
 let CoinDropDown = (props) => {
 const [searchFilter, setSearchFilter] = useState('')
-const addItemContext= useContext(AddItemContext)
+
 
 const renderDropMenu = () => {
     return <Dropdown className="coin-list-dropdown" >
@@ -18,7 +18,7 @@ const renderDropMenu = () => {
             </InputGroup>
             </div>
       { props.coinList.filter(coin => { 
-        return searchFilter == "" || coin.id.toLowerCase().includes(searchFilter.toLowerCase())
+        return searchFilter === "" || coin.id.toLowerCase().includes(searchFilter.toLowerCase())
         }).map((elem) => {
         return <Dropdown.Item id={elem.id} key={elem.id} onClick={props.handleAddWatchItem}>{elem.id.toUpperCase()}</Dropdown.Item>
       })
