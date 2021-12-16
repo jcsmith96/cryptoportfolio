@@ -14,7 +14,7 @@ const renderDropMenu = () => {
             <div className="search-bar">
             <InputGroup>
             <InputGroup.Text>Search</InputGroup.Text>
-              <FormControl placeholder="Search" value={searchFilter} onChange={(evt) => {setSearchFilter(evt.target.value)}}/>
+              <FormControl placeholder="Asset" value={searchFilter} onChange={(evt) => {setSearchFilter(evt.target.value)}}/>
             </InputGroup>
             </div>
       { props.coinList.filter(coin => { 

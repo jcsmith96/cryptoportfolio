@@ -1,7 +1,7 @@
 import { Container, Button, Form, Dropdown, InputGroup, FormControl } from "react-bootstrap"
 import BackendAPI from '../api/BackendAPI'
 import { useState, useContext } from 'react'
-
+import CoinDropDown from "./CoinDropDown"
 import UserContext from '../contexts/UserContext'
 
 
@@ -33,29 +33,28 @@ let NewPosForm = (props) => {
           let asset_id = event.target.id
           setAsset(asset_id)
           setSearchFilter('') 
+          console.log('ww')
       }
 
-
-    const renderDropMenu = () => {
-    return <Dropdown className="coin-list-dropdown" >
-            <Dropdown.Toggle variant="dark">Select Asset</Dropdown.Toggle>
-            <Dropdown.Menu variant="dark" className="add-pos-drop"> 
-            <div className="search-bar">
-            <InputGroup>
-            <InputGroup.Text>Search</InputGroup.Text>
-              <FormControl placeholder="Search" value={searchFilter} onChange={(evt) => {setSearchFilter(evt.target.value)}}/>
-            </InputGroup>
-            </div>
-      { props.coinList.filter(coin => { 
-        return searchFilter === "" || coin.id.toLowerCase().includes(searchFilter.toLowerCase())
-        }).map((elem) => {
-        return <Dropdown.Item id={elem.id} key={elem.id} onClick={handleSelectAsset}>{elem.id.toUpperCase()}</Dropdown.Item>
-      })
-            }
-        </Dropdown.Menu>
-        </Dropdown>
-        }
-
+    // const renderDropMenu = () => {
+    // return <Dropdown className="coin-list-dropdown" >
+    //         <Dropdown.Toggle variant="dark">Select Asset</Dropdown.Toggle>
+    //         <Dropdown.Menu variant="dark" className="add-pos-drop"> 
+    //         <div className="search-bar">
+    //         <InputGroup>
+    //         <InputGroup.Text>Search</InputGroup.Text>
+    //           <FormControl placeholder="Search" value={searchFilter} onChange={(evt) => {setSearchFilter(evt.target.value)}}/>
+    //         </InputGroup>
+    //         </div>
+    //   { props.coinList.filter(coin => { 
+    //     return searchFilter === "" || coin.id.toLowerCase().includes(searchFilter.toLowerCase())
+    //     }).map((elem) => {
+    //     return <Dropdown.Item id={elem.id} key={elem.id} onClick={handleSelectAsset}>{elem.id.toUpperCase()}</Dropdown.Item>
+    //   })
+    //         }
+    //     </Dropdown.Menu>
+    //     </Dropdown>
+    //     }
 
 
     return ( 
@@ -69,7 +68,10 @@ let NewPosForm = (props) => {
                 <div >  
                     <Form className="new-pos-form" onSubmit={handleNewPosSubmit}>
                     { props.coinList &&
-                        renderDropMenu()
+                        // renderDropMenu()
+                        
+                        <CoinDropDown coinList={props.coinList} handleAddWatchItem={handleSelectAsset}/>
+                        
                     }  
                     {  asset &&
                         <h5 className="form-asset-name">{asset.toUpperCase()}</h5>

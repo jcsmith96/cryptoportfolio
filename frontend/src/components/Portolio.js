@@ -8,12 +8,16 @@ import CoinGeckoAPI from '../api/CoinGeckoAPI'
 import BackendAPI from '../api/BackendAPI'
 import NewPosForm from './NewPosForm'
 
+import EditPosForm from './EditPosForm'
+
 
 let Portfolio = (props) => {
     const { user } = useContext(UserContext)
     const [positions, setPositions] = useState(null)
     const [positionsPriceData, setPositionsPriceData] = useState(null)
     const [triggerUpdate, setTriggerUpdate] = useState(false)
+    const [showEditForm, setShowEditForm] = useState(false)
+    const [positionForEdit, setPositionForEdit] = useState(null)
     
 
     useEffect(() => {
@@ -62,16 +66,24 @@ let Portfolio = (props) => {
                                     }
                                 </Container>
                                 <Container className="postion-ud-buttons">
-                                <DropdownButton title="" id="pos-button-dropdown" variant="dark" menuVariant='dark'>
-                                        <Dropdown.Item id={elem[1].id} name="edit-pos">EDIT</Dropdown.Item>
-                                        <Dropdown.Item id={elem[1].id} name="delete-pos" onClick={handlePositionDelete}>DELETE</Dropdown.Item>
-                                </DropdownButton>
+                                    <DropdownButton title="" id="pos-button-dropdown" variant="dark" menuVariant='dark'>
+                                            <Dropdown.Item id={elem[1].id} name="edit-pos" onClick={handleEditClick}>EDIT</Dropdown.Item>
+                                            <Dropdown.Item id={elem[1].id} name="delete-pos" onClick={handlePositionDelete}>DELETE</Dropdown.Item>
+                                    </DropdownButton>
                                 </Container>
                             </Card.Body>
                     </Card>
                     }
             })
         }
+    }
+
+    const handleEditClick = async (event) => {
+        let positionID = event.target.id
+        let data = BackendAPI.fetchPosition(localStorage.getItem("auth-user"), positionID)
+        let response = await data
+        setPositionForEdit(response)
+        setShowEditForm(true)
     }
 
     const handlePositionDelete = async (evt) => {
@@ -102,8 +114,14 @@ let Portfolio = (props) => {
                              
                              </Container>
                             </Card.Body>
-                        </Card>
-                        {
+                    </Card>
+
+                        { showEditForm && 
+                            <EditPosForm setTriggerUpdate={setTriggerUpdate} setShowEditForm={setShowEditForm} positionForEdit={positionForEdit} />
+                        }
+
+                        
+                        { !showEditForm && 
                             renderPositions()
                         }
                     </Tab>

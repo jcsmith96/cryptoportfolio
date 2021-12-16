@@ -23,10 +23,10 @@ let Watchlist = (props) => {
                 let data = await BackendAPI.fetchWatchList(localStorage.getItem("auth-user")) 
                 setWatchlist(data)
                 
-                
-                let watchData = await data.map((elem) => {
+            
+                let watchData = data.map((elem) => {
                     return CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
-                
+                    
                 })
            
                 Promise.all(watchData).then((values) => {
