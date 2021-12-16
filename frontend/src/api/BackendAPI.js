@@ -82,7 +82,7 @@ const addNewPosition = async (token, positionObj) => {
 }
 
 const editPosition = async (token, positionID, positionObj) => {
-  const url = POSITIONS_URL + `${positionID}`
+  const url = POSITIONS_URL + `${positionID}/`
   const init = {
     method: "PATCH",
     headers: {
@@ -92,6 +92,7 @@ const editPosition = async (token, positionID, positionObj) => {
     },
     body: JSON.stringify(positionObj)
   }
+  
   let response = await fetch(url, init)
   let data = await response.json()
   return data

@@ -1,4 +1,4 @@
-import { Container, Button, Form, Dropdown, InputGroup, FormControl } from "react-bootstrap"
+import { Container, Button, Form} from "react-bootstrap"
 import BackendAPI from '../api/BackendAPI'
 import { useState, useContext } from 'react'
 import CoinDropDown from "./CoinDropDown"
@@ -61,7 +61,7 @@ let NewPosForm = (props) => {
 
         <Container  className="pos-form-div">
                 {hideForm && 
-                    <h2>Position Added!</h2>
+                    <h2 className="position-added">Position Added!</h2>
                 }
 
                 { !hideForm && 

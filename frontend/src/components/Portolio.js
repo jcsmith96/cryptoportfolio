@@ -18,6 +18,8 @@ let Portfolio = (props) => {
     const [triggerUpdate, setTriggerUpdate] = useState(false)
     const [showEditForm, setShowEditForm] = useState(false)
     const [positionForEdit, setPositionForEdit] = useState(null)
+    const [currentPriceEdit, setCurrentPrice] = useState(null)
+    const [portfolioBalance, setPortfolioBalance] = useState(null)
     
 
     useEffect(() => {
@@ -27,7 +29,7 @@ let Portfolio = (props) => {
                 setPositions(data)
 
                 let priceData = await data.map((elem) => {
-                    return CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
+                    return  CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
                 })
                 Promise.all(priceData).then((values) => {
                     setPositionsPriceData(values)
@@ -36,6 +38,24 @@ let Portfolio = (props) => {
             getPositions()
         }
     }, [triggerUpdate, user])
+
+
+
+    useEffect(() => {
+        let balance = 0
+
+        const calculateBalance = async (elem) => {
+                let priceData = await CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
+                balance += (Number(elem.quantity) * Number(priceData[elem.asset_id].usd))
+                setPortfolioBalance(balance.toFixed(2))
+            }
+
+
+        if (positions && positionsPriceData) {
+            positions.forEach(calculateBalance)
+        }
+       
+}, [positions, positionsPriceData])
 
 
     let renderPositions = () => {
@@ -67,7 +87,7 @@ let Portfolio = (props) => {
                                 </Container>
                                 <Container className="postion-ud-buttons">
                                     <DropdownButton title="" id="pos-button-dropdown" variant="dark" menuVariant='dark'>
-                                            <Dropdown.Item id={elem[1].id} name="edit-pos" onClick={handleEditClick}>EDIT</Dropdown.Item>
+                                            <Dropdown.Item id={elem[1].id} key={elem[0][key].usd} name={elem[0][key].usd} onClick={handleEditClick}>EDIT</Dropdown.Item>
                                             <Dropdown.Item id={elem[1].id} name="delete-pos" onClick={handlePositionDelete}>DELETE</Dropdown.Item>
                                     </DropdownButton>
                                 </Container>
@@ -80,12 +100,14 @@ let Portfolio = (props) => {
 
     const handleEditClick = async (event) => {
         let positionID = event.target.id
+        let currentPrice = event.target.name
         let data = BackendAPI.fetchPosition(localStorage.getItem("auth-user"), positionID)
         let response = await data
         setPositionForEdit(response)
+        setCurrentPrice(currentPrice)
         setShowEditForm(true)
     }
-
+  
     const handlePositionDelete = async (evt) => {
         setTriggerUpdate(false)
         let position_id = evt.target.id
@@ -99,11 +121,15 @@ let Portfolio = (props) => {
             <Tabs defaultActiveKey="positions" id="portfolio-tabs" className="mb-3">
                     <Tab eventKey="portfolio-summary" title="Portfolio Summary">
                     <div className="portfolio-summary-div">
-                        <h5>Current Balance:</h5>
+                       {portfolioBalance && <h4>Balance: ${portfolioBalance}</h4>}
                     </div>
                     </Tab>
                     <Tab eventKey="positions" title="Positions" className="tabs" >
+                    { !showEditForm ?    
                     <h5>Your Positions</h5>
+                    :
+                    <h5>Edit {positionForEdit.asset_id.toUpperCase()} Position</h5>
+                    }
                     <Card className="title-card" bg="dark">
                     <Card.Body>
                             <Container className="title-card-div">
@@ -117,9 +143,8 @@ let Portfolio = (props) => {
                     </Card>
 
                         { showEditForm && 
-                            <EditPosForm setTriggerUpdate={setTriggerUpdate} setShowEditForm={setShowEditForm} positionForEdit={positionForEdit} />
+                            <EditPosForm setTriggerUpdate={setTriggerUpdate} setShowEditForm={setShowEditForm} positionForEdit={positionForEdit} currentPriceEdit={currentPriceEdit} />
                         }
-
                         
                         { !showEditForm && 
                             renderPositions()

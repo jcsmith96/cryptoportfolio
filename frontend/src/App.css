@@ -133,7 +133,7 @@
   overflow: scroll !important;
   bottom: auto;
   height: 250px;
-  
+  text-align: center !important;
 }
 
 .nav-link {
@@ -205,10 +205,23 @@
   width: 300px;
 }
 
-
 .form-asset-name {
   margin-top: 10px;
 }
 
+.position-added {
+  margin-top: 200px;
+}
 
+.edit-card-div {
+  display: flex !important;
+  gap: 20px
+}
 
+.edit-item-div {
+  margin-top: 10px;
+}
+
+.form-buttons {
+  margin-left: 10px;
+}
