@@ -9,6 +9,7 @@ import BackendAPI from '../api/BackendAPI'
 import NewPosForm from './NewPosForm'
 
 import EditPosForm from './EditPosForm'
+import PortfolioSummary from './PortfolioSummary'
 
 
 let Portfolio = (props) => {
@@ -20,6 +21,7 @@ let Portfolio = (props) => {
     const [positionForEdit, setPositionForEdit] = useState(null)
     const [currentPriceEdit, setCurrentPrice] = useState(null)
     const [portfolioBalance, setPortfolioBalance] = useState(null)
+    const [totalPnl, setTotalPnl] = useState(null)
     
 
     useEffect(() => {
@@ -43,18 +45,21 @@ let Portfolio = (props) => {
 
     useEffect(() => {
         let balance = 0
-
+        let pnl = 0
+        if (user && props.isLoggedIn) {
         const calculateBalance = async (elem) => {
                 let priceData = await CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
-                balance += (Number(elem.quantity) * Number(priceData[elem.asset_id].usd))
+                balance += (elem.quantity * priceData[elem.asset_id].usd)
+                pnl += (Number(priceData[elem.asset_id].usd) - elem.price_purchased)/ elem.price_purchased * 100
                 setPortfolioBalance(balance.toFixed(2))
+                setTotalPnl(pnl/positions.length)
             }
-
-
-        if (positions && positionsPriceData) {
+        
+        if (user && positions && positionsPriceData) {
             positions.forEach(calculateBalance)
+            
         }
-       
+    }
 }, [positions, positionsPriceData])
 
 
@@ -74,7 +79,7 @@ let Portfolio = (props) => {
                                         {Number(elem[1].quantity).toFixed(4)}
                                     </Col>
                                     <Col className="position-item-div">${elem[0][key].usd}</Col>
-                                    <Col className="postition-item-div">${elem[1].price_purchased}</Col>
+                                    <Col className="position-item-div">${elem[1].price_purchased}</Col>
                                 </Container>
                                 <Container className="pos-sum">
                                     <Col className="postion-value">${(Number(elem[1].quantity) * Number(elem[0][key].usd)).toFixed(2)}</Col>
@@ -120,9 +125,7 @@ let Portfolio = (props) => {
             
             <Tabs defaultActiveKey="positions" id="portfolio-tabs" className="mb-3">
                     <Tab eventKey="portfolio-summary" title="Portfolio Summary">
-                    <div className="portfolio-summary-div">
-                       {portfolioBalance && <h4>Balance: ${portfolioBalance}</h4>}
-                    </div>
+                        <PortfolioSummary portfolioBalance={portfolioBalance} totalPnl={totalPnl}/>
                     </Tab>
                     <Tab eventKey="positions" title="Positions" className="tabs" >
                     { !showEditForm ?    

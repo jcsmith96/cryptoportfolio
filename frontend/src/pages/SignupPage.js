@@ -24,21 +24,15 @@ const SignupPage = (props) => {
   }
 
   return (
-    <Container>
-      <h1>Signup Page</h1>
+    <Container className='login-div'>
+      <h1 className="login-header">Signup Page</h1>
       <form onSubmit={handleSignup}>
-        <label>UserName:</label>
-        <input type='text' placeholder='RonBurgondy' name='username' />
-        <label>Password:</label>
+        <label className="login-header">UserName:</label>
+        <input type='text'name='username' />
+        <label className="login-header">Password:</label>
         <input type='password' name='password' />
         <button type='submit' >Sign Up</button>
       </form>
-      <div>
-        <Link to='/'>Home</Link>
-      </div>
-      <div>
-        <Link to='/login'>Login</Link>
-      </div>
     </Container>
   );
 };

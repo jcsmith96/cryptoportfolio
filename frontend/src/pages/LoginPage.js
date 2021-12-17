@@ -17,21 +17,15 @@ const Login = ({isLoggedIn, handleLogout, handleLogin}) => {
   }
 
   return (
-    <div>
-    <h1>Login Page</h1>
+    <div className="login-div">
+    <h1 className="login-header">Login Page</h1>
       <form onSubmit={handleLogin}>
-        <label>UserName:</label>
-        <input type='text' placeholder='RonBurgondy' name='username' />
-        <label>Password:</label>
+        <label className='login-header'>UserName:</label>
+        <input type='text' name='username' />
+        <label className='login-header'>Password:</label>
         <input type='password' name='password' />
         <button type='submit' >Submit</button>
       </form>
-      <div>
-        <Link to='/'>Home</Link>
-      </div>
-      <div>
-        <Link to='/signup'>Signup</Link>
-      </div>
     </div>
   );
 };

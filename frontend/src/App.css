@@ -11,6 +11,17 @@
   background-size: cover;
 }
 
+.login-div {
+  min-height: 100vh;
+}
+
+.login-header {
+  color: white !important;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 20px;
+}
+
 .home-container {
   color: white;
   margin-top: 25px;
@@ -224,4 +235,21 @@
 
 .form-buttons {
   margin-left: 10px;
+}
+
+.portfolio-summary-div {
+  margin-top: 40px;
+}
+
+.summary-card-container {
+  display: flex !important;
+  gap: 20px
+}
+
+.sum-item {
+  margin-top: 27px;
+}
+
+.summary-card {
+  height: 100px;
 }

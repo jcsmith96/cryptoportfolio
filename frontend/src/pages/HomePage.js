@@ -3,7 +3,7 @@ import UserContext from '../contexts/UserContext.js';
 import {Container, Col, Row} from 'react-bootstrap'
 import Watchlist from '../components/Watchlist.js';
 import Portfolio from '../components/Portolio.js';
-import ArticleTeasers from '../components/ArticleTeasers.js';
+import RelatedTweets from '../components/RelatedTweets.js';
 
 const HomePage = ({ isLoggedIn, coinList }) => {
   const userContext = useContext(UserContext);
@@ -17,8 +17,8 @@ const HomePage = ({ isLoggedIn, coinList }) => {
       <Container>
           <Row>
             <Col className="homepage-container"><Watchlist coinList={coinList}></Watchlist></Col>
-            <Col ><Portfolio coinList={coinList}></Portfolio></Col>
-            <Col className="homepage-container"><ArticleTeasers></ArticleTeasers></Col>
+            <Col ><Portfolio coinList={coinList} isLoggedIn={isLoggedIn}></Portfolio></Col>
+            <Col className="homepage-container"><RelatedTweets></RelatedTweets></Col>
           </Row>
       </Container>
     }
