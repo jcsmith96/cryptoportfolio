@@ -32,3 +32,5 @@ class PositionViewSet(viewsets.ModelViewSet):
 
         user = self.request.user
         return Position.objects.filter(user=user)
+
+

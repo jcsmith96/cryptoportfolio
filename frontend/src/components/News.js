@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react'
 import { Container, Card } from 'react-bootstrap'
-
+import ReactPaginate from 'react-paginate'
 import UserContext from '../contexts/UserContext'
 import newsAPIKey from '../api/newsAPIkey'
 
@@ -10,10 +10,12 @@ let News = (props) => {
     const [keywords, setKeywords] = useState(null)
     const [news, setNews] = useState(null)
     const [date, setDate] = useState(null)
-
+    const [isLoaded, setisLoaded] = useState(false)
+    const [currentPage, setCurrentPage] = useState(0)
+    const [pageCount, setPageCount] = useState(0)
 
     useEffect(() => {
-        if (props.positions){
+        if (props.positions && user){
         const getKeyWords = async () => {
             let words = []
             props.positions.forEach((elem) => {
@@ -41,26 +43,40 @@ let News = (props) => {
             } 
         let currentDate = (yyyy+ '-' + mm + '-' + dd)
             setDate(currentDate)
-        }, [keywords])
+        }, [])
 
 // when fetches news and sets new variable 
     useEffect(() => {
-        const fetchNews = async () => {
-            const url = `http://api.mediastack.com/v1/news?access_key=${newsAPIKey}&date=${date}&categories=technology,business&countries=us&languages=en&limit=5&keywords=${keywords}`
-            let response = await fetch(url)
-            let data = await response.json()
-            setNews(data)
-        }
-
+        if (date){
+        
         fetchNews()
-    }, [date])
+        }
+    }, [keywords])
+
+    const fetchNews = async () => {
+        const url = `http://api.mediastack.com/v1/news?access_key=${newsAPIKey}&date=${date}&countries=us&languages=en&limit=5&keywords=${keywords}&offset=${currentPage}`
+        let response = await fetch(url)
+        let data = await response.json()
+        setNews(data)
+        setPageCount(Math.ceil(data.pagination.total / data.pagination.limit))
+        setisLoaded(true)
+    }
 
     
-   
+    const handlePageChange = (event) => {
+        if (((event.selected * 5) - 5) < 0) {
+            setCurrentPage(0)
+        } else {
+		setCurrentPage((event.selected * 5) - 5);
+        }
+		fetchNews();
+	};
  
+    console.log(news)
+    console.log(currentPage)
     
     let renderNews = () => {
-      if (news && user){
+      
         return news.data.map((elem, index) => {
             return <Card className="news-cards" bg="dark" key={index}>
                         <Card.Body>
@@ -68,10 +84,10 @@ let News = (props) => {
                         </Card.Body>
                     </Card>
         })
-        }
+    
     }
 
-    console.log(news)
+    
     // author: "Cointelegraph"
     // description: "Cointelegraph Research: Is Solana an ‘Ethereum killer?’"
     // image: "https://d1-invdn-com.investing.com/content/pic8ee823bf1c3fbc61c7c2ba11cd1ea2f2.jpg"
@@ -84,9 +100,34 @@ let News = (props) => {
             
             <div className='news-div'>
                 <h5>Related News</h5>
-           { news && 
-                renderNews()
-                }
+           { isLoaded ? 
+            renderNews()
+            :
+            <div></div>
+            }
+          
+            {isLoaded ? (
+                <div className="news-paginate">
+				<ReactPaginate
+					pageCount={pageCount}
+					pageRange={0}
+					marginPagesDisplayed={0}
+					onPageChange={handlePageChange}
+					containerClassName={'page-container'}
+					previousLinkClassName={'page'}
+					breakClassName={'page'}
+					nextLinkClassName={'page'}
+					pageClassName={'page'}
+                    previousLabel={'PREV'}
+                    nextLabel={'NEXT'}
+					disabledClassNae={'page-disabled'}
+					activeClassName={'page-active'}
+				/>
+                </div>
+			) : (
+				<div>Nothing to display</div>
+			)} 
+
             </div>
             </Container>
     )

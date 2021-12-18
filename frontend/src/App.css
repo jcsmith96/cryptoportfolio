@@ -260,9 +260,76 @@
 
 .news-cards {
  margin-top: 8px;
+ height: 100px;
 }
 
 
 .card-title {
   font-size: 13px;
+}
+
+
+
+/* PAGINATION */
+.page-container{
+  margin-right: 26px;
+  margin-top: 20px;
+  width: 50px !important;
+  display: flex;
+  align-items: baseline;
+  list-style: none;
+  padding-left: 0;
+  margin-left: 10px;
+}
+
+.page {
+  font-size: 13px;
+  padding: 5px;
+  border-radius: 6px;
+  height: 5px;
+  cursor: pointer;
+}
+
+
+
+.page-disabled{
+  cursor: not-allowed;
+  
+}
+
+.page-active{
+  
+  font-weight: bold;
+}
+
+.previous a {
+  color: white;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.previous:hover a {
+  color:black;
+}
+
+.page-break{
+  padding: 10px;
+}
+
+.page:hover{
+  color:black;
+}
+
+.next a{
+  color: white;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.next:hover a {
+  color: black;
+}
+
+.ul-page-container {
+  width: 100px;
 }
