@@ -15,31 +15,36 @@ let Watchlist = (props) => {
     const [watchlistData, setWatchlistData] = useState(null)
     const [triggerUpdate, setTriggerUpdate] = useState(false)
 
-   
+   // SETS USER'S WATCHLIST
         useEffect(() => {
             if (user) {
             const getLists = async () => {
-            
                 let data = await BackendAPI.fetchWatchList(localStorage.getItem("auth-user")) 
                 setWatchlist(data)
-                
-            
-                let watchData = data.map((elem) => {
-                    return CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
-                    
-                })
-           
-                Promise.all(watchData).then((values) => {
-                      setWatchlistData(values)
-                    })  
               
                 }
             getLists() 
             }
-        }, [triggerUpdate, user])
+        }, [])
+
+    // SETS PRICE DATA FOR WATCHLIST 
+        useEffect(() => {
+            if (watchlist && user) {
+            const getPriceData = async () => {
+            let watchData =  watchlist.map( async (elem) => {
+                return await CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
+            })
+       
+            Promise.all(watchData).then((values) => {
+                  setWatchlistData(values)
+                })  
+            }
+            getPriceData()
+        }
+        }, [watchlist])
 
 
-        let renderWatchItems = () => {
+    let renderWatchItems = () => {
                     if (watchlist && watchlistData) {
                         return watchlistData.map((x, i) => [x, watchlist[i]]).map((elem) => {
                             let key = Object.keys(elem[0])[0]
@@ -68,7 +73,7 @@ let Watchlist = (props) => {
                     })
                 }
                 
-                }
+            }
        
     let handleAddWatchItem = async (event) => {
             setTriggerUpdate(false)

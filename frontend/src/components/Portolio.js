@@ -14,35 +14,29 @@ import PortfolioSummary from './PortfolioSummary'
 
 let Portfolio = (props) => {
     const { user } = useContext(UserContext)
-    const [positions, setPositions] = useState(null)
     const [positionsPriceData, setPositionsPriceData] = useState(null)
-    const [triggerUpdate, setTriggerUpdate] = useState(false)
     const [showEditForm, setShowEditForm] = useState(false)
     const [positionForEdit, setPositionForEdit] = useState(null)
     const [currentPriceEdit, setCurrentPrice] = useState(null)
     const [portfolioBalance, setPortfolioBalance] = useState(null)
     const [totalPnl, setTotalPnl] = useState(null)
     
-
     useEffect(() => {
-        if (user) {
-            const getPositions = async () => {
-                let data = await BackendAPI.fetchUserPositions(localStorage.getItem("auth-user"))
-                setPositions(data)
-
-                let priceData = await data.map((elem) => {
-                    return  CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
+        if (user && props.positions) {
+            const getPrices = async () => {
+                
+                let priceData = props.positions.map( async (elem) => {
+                    return await CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
                 })
                 Promise.all(priceData).then((values) => {
                     setPositionsPriceData(values)
                 })
             }
-            getPositions()
+            getPrices()
         }
-    }, [triggerUpdate, user])
+    }, [props.positions, props.triggerUpdate])
 
-
-
+// calculates total balance and PNL % 
     useEffect(() => {
         let balance = 0
         let pnl = 0
@@ -52,20 +46,21 @@ let Portfolio = (props) => {
                 balance += (elem.quantity * priceData[elem.asset_id].usd)
                 pnl += (Number(priceData[elem.asset_id].usd) - elem.price_purchased)/ elem.price_purchased * 100
                 setPortfolioBalance(balance.toFixed(2))
-                setTotalPnl(pnl/positions.length)
+                setTotalPnl(pnl/props.positions.length)
             }
         
-        if (user && positions && positionsPriceData) {
-            positions.forEach(calculateBalance)
+        if (user && props.positions && positionsPriceData) {
+            props.positions.forEach(calculateBalance)
             
         }
     }
-}, [positions, positionsPriceData])
+}, [props.positions, positionsPriceData])
 
 
+// renders positions
     let renderPositions = () => {
-        if (positions && positionsPriceData) {
-            return positionsPriceData.map((x, i) => [x, positions[i]]).map((elem) => {
+        if (props.positions && positionsPriceData) {
+            return positionsPriceData.map((x, i) => [x, props.positions[i]]).map((elem) => {
                 let key = Object.keys(elem[0])[0]
                     if (elem[1] !== undefined){
                         return <Card className="position-card" bg="dark" key={elem[1].id}>
@@ -103,6 +98,7 @@ let Portfolio = (props) => {
         }
     }
 
+// edit position click
     const handleEditClick = async (event) => {
         let positionID = event.target.id
         let currentPrice = event.target.name
@@ -113,16 +109,17 @@ let Portfolio = (props) => {
         setShowEditForm(true)
     }
   
+// position delete 
     const handlePositionDelete = async (evt) => {
-        setTriggerUpdate(false)
+        props.setTriggerUpdate(false)
         let position_id = evt.target.id
         await BackendAPI.deleteUserPosition(localStorage.getItem("auth-user"), position_id)
-        setTriggerUpdate(true)
+        props.setTriggerUpdate(true)
     }
 
     return (
         <Container className="portfolio" xs={6}>
-            
+            { user && 
             <Tabs defaultActiveKey="positions" id="portfolio-tabs" className="mb-3">
                     <Tab eventKey="portfolio-summary" title="Portfolio Summary">
                         <PortfolioSummary portfolioBalance={portfolioBalance} totalPnl={totalPnl}/>
@@ -146,7 +143,7 @@ let Portfolio = (props) => {
                     </Card>
 
                         { showEditForm && 
-                            <EditPosForm setTriggerUpdate={setTriggerUpdate} setShowEditForm={setShowEditForm} positionForEdit={positionForEdit} currentPriceEdit={currentPriceEdit} />
+                            <EditPosForm setTriggerUpdate={props.setTriggerUpdate} setShowEditForm={setShowEditForm} positionForEdit={positionForEdit} currentPriceEdit={currentPriceEdit} />
                         }
                         
                         { !showEditForm && 
@@ -154,12 +151,13 @@ let Portfolio = (props) => {
                         }
                     </Tab>
                     <Tab eventKey="new-pos" title="Add Position" unmountOnExit="true">
-                           <NewPosForm coinList={props.coinList} setTriggerUpdate={setTriggerUpdate}/> 
+                           <NewPosForm coinList={props.coinList} setTriggerUpdate={props.setTriggerUpdate}/> 
                     </Tab>
                     <Tab eventKey="sold" title="Closed">
                             
                     </Tab>
                     </Tabs>
+                }
         </Container>
     )
 
