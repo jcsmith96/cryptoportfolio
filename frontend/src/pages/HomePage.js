@@ -26,7 +26,7 @@ const HomePage = ({ isLoggedIn, coinList }) => {
     <Container fluid className="home-container">
 
     {
-      user &&
+      (user && positions) &&
       <Container>
           <Row>
             <Col className="homepage-container"><Watchlist coinList={coinList} isLoggedIn={isLoggedIn}></Watchlist></Col>

@@ -25,7 +25,7 @@ let Watchlist = (props) => {
                 }
             getLists() 
             }
-        }, [])
+        }, [triggerUpdate])
 
     // SETS PRICE DATA FOR WATCHLIST 
         useEffect(() => {
@@ -45,7 +45,7 @@ let Watchlist = (props) => {
 
 
     let renderWatchItems = () => {
-                    if (watchlist && watchlistData) {
+                    if (user && watchlist && watchlistData) {
                         return watchlistData.map((x, i) => [x, watchlist[i]]).map((elem) => {
                             let key = Object.keys(elem[0])[0]
                             if (elem[1]!==undefined){
@@ -60,7 +60,7 @@ let Watchlist = (props) => {
                                             </Card.Title>
                                         
                                           <div className="watchlist-card-body">
-                                            <h5>${elem[0][key].usd}</h5>
+                                            <h5>${Number(elem[0][key].usd).toLocaleString('en-US')}</h5>
                                             <span className='small-font'>24hr </span>
                                             <span className={Number(elem[0][key].usd_24h_change) < 0 ? "negative" : "positive"}>
                                                   {Number(elem[0][key].usd_24h_change).toFixed(3)}%
@@ -83,7 +83,9 @@ let Watchlist = (props) => {
                 user: user.id,
                 asset_id: asset_id
             }
+            if (itemObj.user && itemObj.asset_id){
             await BackendAPI.addWatchItem(localStorage.getItem("auth-user"), itemObj)
+            }
             setTriggerUpdate(true)
         }
         
@@ -91,7 +93,9 @@ let Watchlist = (props) => {
       let handleDeleteWatchItem = async (evt) => {
             setTriggerUpdate(false)
             let itemID = evt.target.id
+            if (itemID){
             await BackendAPI.deleteWatchItem(localStorage.getItem("auth-user"), itemID)
+            }
             setTriggerUpdate(true)
       }
 

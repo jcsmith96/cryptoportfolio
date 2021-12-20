@@ -20,6 +20,7 @@ let Portfolio = (props) => {
     const [currentPriceEdit, setCurrentPrice] = useState(null)
     const [portfolioBalance, setPortfolioBalance] = useState(null)
     const [totalPnl, setTotalPnl] = useState(null)
+    const [pnlUsd, setPnlUsd] = useState(null)
     
     useEffect(() => {
         if (user && props.positions) {
@@ -40,13 +41,16 @@ let Portfolio = (props) => {
     useEffect(() => {
         let balance = 0
         let pnl = 0
+        let usdPnl = 0
         if (user && props.isLoggedIn) {
         const calculateBalance = async (elem) => {
                 let priceData = await CoinGeckoAPI.fetchSimplePrice(elem.asset_id)
                 balance += (elem.quantity * priceData[elem.asset_id].usd)
                 pnl += (Number(priceData[elem.asset_id].usd) - elem.price_purchased)/ elem.price_purchased * 100
+                usdPnl += (elem.quantity * priceData[elem.asset_id].usd) - (elem.quantity * elem.price_purchased)
                 setPortfolioBalance(balance.toFixed(2))
                 setTotalPnl(pnl/props.positions.length)
+                setPnlUsd(usdPnl.toFixed(2))
             }
         
         if (user && props.positions && positionsPriceData) {
@@ -71,22 +75,27 @@ let Portfolio = (props) => {
                                     {key.toUpperCase()}
                                     </Col>
                                     <Col className="position-item-div">
-                                        {Number(elem[1].quantity).toFixed(4)}
+                                        {Number(Number(elem[1].quantity).toFixed(4)).toLocaleString("en-US")}
                                     </Col>
-                                    <Col className="position-item-div">${elem[0][key].usd}</Col>
-                                    <Col className="position-item-div">${elem[1].price_purchased}</Col>
+                                    <Col className="position-item-div">${Number(elem[0][key].usd).toLocaleString("en-US")}</Col>
+                                    <Col className="position-item-div">${Number(elem[1].price_purchased).toLocaleString("en-US")}</Col>
                                 </Container>
                                 <Container className="pos-sum">
-                                    <Col className="postion-value">${(Number(elem[1].quantity) * Number(elem[0][key].usd)).toFixed(2)}</Col>
+                                    <Col className="postion-value">${Number((elem[1].quantity * elem[0][key].usd).toFixed(2)).toLocaleString("en-US")}</Col>
+                                     { Number(elem[0][key].usd) > Number(elem[1].price_purchased)
+                                     ? <Col className="positive-pos-pnl">+${Number(((elem[1].quantity * elem[0][key].usd).toFixed(2)) - (elem[1].quantity * elem[1].price_purchased).toFixed(2)).toLocaleString("en-us")}</Col>
+                                     : <Col className="negative-pos-pnl">-${Math.abs(((elem[1].quantity * elem[0][key].usd).toFixed(2) - (elem[1].quantity * elem[1].price_purchased)).toFixed(2)).toLocaleString("en-US")}</Col>
+                                    }
                                     { Number(elem[0][key].usd) > Number(elem[1].price_purchased)
                                     ?
-                                    <Col className="positive-pos-pnl">{((Number(elem[0][key].usd) - Number(elem[1].price_purchased))/ Number(elem[1].price_purchased) * 100).toFixed(3)}%</Col>
+                                    <Col className="positive-pos-pnl">+{Number((((elem[0][key].usd - elem[1].price_purchased)/ elem[1].price_purchased) * 100).toFixed(2)).toLocaleString("en-US")}%</Col>
                                     :
-                                    <Col className="negative-pos-pnl">{((Number(elem[0][key].usd) - Number(elem[1].price_purchased))/ Number(elem[1].price_purchased)* 100).toFixed(3)}%</Col>
+                                    <Col className="negative-pos-pnl">{Number((((elem[0][key].usd - elem[1].price_purchased)/ elem[1].price_purchased)* 100).toFixed(2)).toLocaleString("en-US")}%</Col>
                                     }
                                 </Container>
                                 <Container className="postion-ud-buttons">
                                     <DropdownButton title="" id="pos-button-dropdown" variant="dark" menuVariant='dark'>
+                                            <Dropdown.Item id={[elem[1].id, elem[0][key].usd]} name={elem[0][key].usd} onClick={handleClosePosition}>CLOSE POSITION</Dropdown.Item>
                                             <Dropdown.Item id={elem[1].id} key={elem[0][key].usd} name={elem[0][key].usd} onClick={handleEditClick}>EDIT</Dropdown.Item>
                                             <Dropdown.Item id={elem[1].id} name="delete-pos" onClick={handlePositionDelete}>DELETE</Dropdown.Item>
                                     </DropdownButton>
@@ -117,12 +126,18 @@ let Portfolio = (props) => {
         props.setTriggerUpdate(true)
     }
 
+    const handleClosePosition = async (event) => {
+        let positionID = event.target.id
+        
+        console.log(positionID)
+    }
+
     return (
         <Container className="portfolio" xs={6}>
             { user && 
             <Tabs defaultActiveKey="positions" id="portfolio-tabs" className="mb-3">
                     <Tab eventKey="portfolio-summary" title="Portfolio Summary">
-                        <PortfolioSummary portfolioBalance={portfolioBalance} totalPnl={totalPnl}/>
+                        <PortfolioSummary portfolioBalance={portfolioBalance} totalPnl={totalPnl} pnlUsd={pnlUsd}/>
                     </Tab>
                     <Tab eventKey="positions" title="Positions" className="tabs" >
                     { !showEditForm ?    

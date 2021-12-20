@@ -27,6 +27,7 @@ let News = (props) => {
         }
     }, [props.positions])
 
+// sets date to todays date 
      useEffect(() => {
         var today = new Date();
         var dd = today.getDate();
@@ -64,35 +65,27 @@ let News = (props) => {
 
     
     const handlePageChange = (event) => {
-        if (((event.selected * 5) - 5) < 0) {
+        console.log(event.selected)
+        if ((((event.selected+1) * 5) - 5) <= 0) {
             setCurrentPage(0)
         } else {
-		setCurrentPage((event.selected * 5) - 5);
+		setCurrentPage(((event.selected+1) * 5) - 5);
         }
 		fetchNews();
 	};
- 
-    console.log(news)
-    console.log(currentPage)
     
     let renderNews = () => {
       
         return news.data.map((elem, index) => {
             return <Card className="news-cards" bg="dark" key={index}>
-                        <Card.Body>
-                            <div className='card-title'>{elem.title}</div>
+                        <Card.Body className="news-body">
+                            <div className='card-title'><a href={elem.url}>{elem.title}</a></div>
+                            <div className="card-author">{elem.author}</div>
                         </Card.Body>
                     </Card>
         })
     
     }
-
-    
-    // author: "Cointelegraph"
-    // description: "Cointelegraph Research: Is Solana an ‘Ethereum killer?’"
-    // image: "https://d1-invdn-com.investing.com/content/pic8ee823bf1c3fbc61c7c2ba11cd1ea2f2.jpg"
-    // title: "Cointelegraph Research: Is Solana an ‘Ethereum killer?’"
-    // url: "https://www.investing.com/news/cryptocurren
 
 
     return (
@@ -120,7 +113,7 @@ let News = (props) => {
 					pageClassName={'page'}
                     previousLabel={'PREV'}
                     nextLabel={'NEXT'}
-					disabledClassNae={'page-disabled'}
+					disabledClassName={'page-disabled'}
 					activeClassName={'page-active'}
 				/>
                 </div>
