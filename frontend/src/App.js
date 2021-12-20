@@ -69,7 +69,7 @@ function App() {
   }
 
   const handleLogout = () => {
-    localStorage.setItem("auth-user", null);
+    localStorage.removeItem("auth-user");
     setIsLoggedIn(false);
     setUser(null);
   }

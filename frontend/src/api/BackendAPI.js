@@ -72,7 +72,6 @@ const addNewPosition = async (token, positionObj) => {
     headers: {
       "Content-Type": "application/json",
       Authorization: `JWT ${token}`
-
     },
     body: JSON.stringify(positionObj)
   }

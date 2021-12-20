@@ -1,12 +1,6 @@
-import { Container, Col, Tabs, Tab, Card, DropdownButton, Dropdown} from 'react-bootstrap'
-import UserContext from '../contexts/UserContext'
-import { useContext } from 'react'
+import { Container, Col, Card } from 'react-bootstrap'
 
 const PortfolioSummary = (props) => {
-    const { user } = useContext(UserContext)
-
-
-
 
     let renderSummary = ()  => {
         return <Container className="portfolio-summary-div">
@@ -43,10 +37,7 @@ const PortfolioSummary = (props) => {
                 </Card>
             </Container>
 
-
     }
-
-
 
     return (
         <Container>

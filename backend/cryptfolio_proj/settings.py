@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -145,7 +146,10 @@ CORS_ORIGIN_WHITELIST = ['https://localhost:3000','http://localhost:3000']
 
 
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'cryptfolio_proj.utils.my_jwt_response_handler'
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=60),
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=60),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'cryptfolio_proj.utils.my_jwt_response_handler',
 }
 
 

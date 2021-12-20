@@ -258,12 +258,10 @@
 
 .news-div {
   margin-top: 20px;
+
 }
 
-.news-cards {
- margin-top: 8px;
- height: 90px;
-}
+
 
 
 .card-title {
@@ -273,16 +271,6 @@
 
 
 /* PAGINATION */
-.page-container{
-  margin-right: 26px;
-  margin-top: 20px;
-  width: 50px !important;
-  display: flex;
-  align-items: baseline;
-  list-style: none;
-  padding-left: 0;
-  margin-left: 10px;
-}
 
 .page {
   font-size: 13px;
@@ -354,7 +342,30 @@
   color:rgba(191, 193, 194, 0.562);
 }
 
-.page-container {
+
+.page-container{
+  margin-right: 26px;
   margin-top: 20px;
+  width: 50px !important;
+  display: flex;
+  align-items: baseline;
+  list-style: none;
+  padding-left: 0;
   margin-left: 30px;
+}
+
+.news-cards {
+ margin-top: 8px;
+ height: fit-content;
+ margin-bottom: 10px;
+ overflow: scroll;
+}
+
+.news-paginate {
+  position: absolute;
+  bottom: 0px;
+}
+
+.news {
+  position: relative;
 }

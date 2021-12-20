@@ -5,7 +5,6 @@ import Watchlist from '../components/Watchlist.js';
 import Portfolio from '../components/Portolio.js';
 import News from '../components/News.js';
 import BackendAPI from '../api/BackendAPI'
-import { propTypes } from 'react-bootstrap/esm/Image';
 
 const HomePage = ({ isLoggedIn, coinList }) => {
   const userContext = useContext(UserContext);

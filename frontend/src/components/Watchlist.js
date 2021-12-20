@@ -13,7 +13,6 @@ let Watchlist = (props) => {
     const { user } = useContext(UserContext)
     const [watchlist, setWatchlist] = useState(null)
     const [watchlistData, setWatchlistData] = useState(null)
-    const [triggerUpdate, setTriggerUpdate] = useState(false)
 
    // SETS USER'S WATCHLIST
         useEffect(() => {
@@ -25,7 +24,7 @@ let Watchlist = (props) => {
                 }
             getLists() 
             }
-        }, [triggerUpdate])
+        }, [user])
 
     // SETS PRICE DATA FOR WATCHLIST 
         useEffect(() => {
@@ -41,7 +40,7 @@ let Watchlist = (props) => {
             }
             getPriceData()
         }
-        }, [watchlist])
+        }, [watchlist, user])
 
 
     let renderWatchItems = () => {
@@ -49,9 +48,9 @@ let Watchlist = (props) => {
                         return watchlistData.map((x, i) => [x, watchlist[i]]).map((elem) => {
                             let key = Object.keys(elem[0])[0]
                             if (elem[1]!==undefined){
-                                return <Card className="watchlist-card" bg="dark" key={elem[1].id}>
-                                    <span className="close-button"> <CloseButton id={elem[1].id} onClick={handleDeleteWatchItem} variant="white" /></span>
-                                        <Card.Body>
+                                return <Card className="watchlist-card" bg="dark"  key={elem[1].id}>
+                                    <span className="close-button" id={elem[1].asset_id}> <CloseButton id={elem[1].id} key={elem[1].asset_id} onClick={handleDeleteWatchItem} variant="white" /></span>
+                                        <Card.Body key={elem[1].id}>
                                             <Card.Title> 
                                             <div>
                                             {key.toUpperCase()}
@@ -76,7 +75,6 @@ let Watchlist = (props) => {
             }
        
     let handleAddWatchItem = async (event) => {
-            setTriggerUpdate(false)
             event.preventDefault()
             let asset_id = event.target.id
             const itemObj = {
@@ -86,19 +84,19 @@ let Watchlist = (props) => {
             if (itemObj.user && itemObj.asset_id){
             await BackendAPI.addWatchItem(localStorage.getItem("auth-user"), itemObj)
             }
-            setTriggerUpdate(true)
+            setWatchlist([...watchlist, itemObj])
         }
         
                                   
       let handleDeleteWatchItem = async (evt) => {
-            setTriggerUpdate(false)
             let itemID = evt.target.id
             if (itemID){
             await BackendAPI.deleteWatchItem(localStorage.getItem("auth-user"), itemID)
+            let watchCopy = [...watchlist]
+            let newWatchlist = watchCopy.filter(elem => elem.asset_id !== evt.target.parentElement.id)
+            setWatchlist(newWatchlist)
             }
-            setTriggerUpdate(true)
       }
-
 
     return (
         <Container className="watch-list">
