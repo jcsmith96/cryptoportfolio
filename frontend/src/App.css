@@ -262,8 +262,6 @@
 }
 
 
-
-
 .card-title {
   font-size: 13px;
 }
@@ -368,4 +366,21 @@
 
 .news {
   position: relative;
+}
+
+
+
+.close-pos-div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.close-item-div {
+  margin-top: 10px;
+}
+
+.close-card {
+  margin-top: 30px;
 }

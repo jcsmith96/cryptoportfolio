@@ -1,6 +1,7 @@
 import { Container, Col, Card } from 'react-bootstrap'
 
 const PortfolioSummary = (props) => {
+   
 
     let renderSummary = ()  => {
         return <Container className="portfolio-summary-div">
@@ -16,7 +17,7 @@ const PortfolioSummary = (props) => {
                     <Card.Body>
                         <Container className="summary-card-container">
                             <Col className='sum-item'> <h4>Profit/Loss</h4> </Col>
-                            { props.totalPnl > 0 
+                            { props.pnlUsd > 0 
                                 ? 
                                 <Col className='sum-item'><h4 className={'positive'}>
                                     +${Number(props.pnlUsd).toLocaleString('en-US')}</h4></Col>

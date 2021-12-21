@@ -24,7 +24,6 @@ function App() {
   const [coinList, setCoinList] = useState(null);
   
 
-
   //effects
   useEffect(() => {
     const getUser = async () => {

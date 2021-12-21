@@ -10,17 +10,26 @@ const HomePage = ({ isLoggedIn, coinList }) => {
   const userContext = useContext(UserContext);
   const { user } = userContext;
   const [positions, setPositions] = useState(null)
+  const [closedPositions, setClosedPositions] = useState(null)
   const [triggerUpdate, setTriggerUpdate] = useState(false)
 
   useEffect(() => {
         const getPositions = async () => {
           let data = await BackendAPI.fetchUserPositions(localStorage.getItem("auth-user"))
-          setPositions(data)
+          let openPositions = data.filter((elem) => elem.closed === false)
+          setPositions(openPositions)
         }
         getPositions()
   }, [triggerUpdate])
 
-
+  useEffect(() => {
+     const getClosed = async () => {
+       let data = await BackendAPI.fetchClosedPositions(localStorage.getItem("auth-user"))
+       setClosedPositions(data)
+     }
+     getClosed()
+  }, [])
+  console.log(closedPositions)
   return (
     <Container fluid className="home-container">
 
@@ -29,7 +38,7 @@ const HomePage = ({ isLoggedIn, coinList }) => {
       <Container>
           <Row>
             <Col className="homepage-container"><Watchlist coinList={coinList} isLoggedIn={isLoggedIn}></Watchlist></Col>
-            <Col ><Portfolio coinList={coinList} positions={positions} isLoggedIn={isLoggedIn} setTriggerUpdate={setTriggerUpdate}></Portfolio></Col>
+            <Col ><Portfolio coinList={coinList} setPositions={setPositions} positions={positions} isLoggedIn={isLoggedIn} setTriggerUpdate={setTriggerUpdate} closedPositions={closedPositions} setClosedPositions={setClosedPositions}></Portfolio></Col>
             <Col className="homepage-container"><News positions={positions}></News></Col>
           </Row>
       </Container>

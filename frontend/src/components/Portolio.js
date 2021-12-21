@@ -10,6 +10,7 @@ import NewPosForm from './NewPosForm'
 
 import EditPosForm from './EditPosForm'
 import PortfolioSummary from './PortfolioSummary'
+import ClosePosForm from './ClosePosForm'
 
 
 let Portfolio = (props) => {
@@ -17,6 +18,8 @@ let Portfolio = (props) => {
     const [positionsPriceData, setPositionsPriceData] = useState(null)
     const [showEditForm, setShowEditForm] = useState(false)
     const [positionForEdit, setPositionForEdit] = useState(null)
+    const [showCloseForm, setShowCloseForm] = useState(false)
+    const [positionForClose, setPositionForClose] = useState(false)
     const [currentPriceEdit, setCurrentPrice] = useState(null)
     const [portfolioBalance, setPortfolioBalance] = useState(null)
     const [totalPnl, setTotalPnl] = useState(null)
@@ -95,7 +98,7 @@ let Portfolio = (props) => {
                                 </Container>
                                 <Container className="postion-ud-buttons">
                                     <DropdownButton title="" id="pos-button-dropdown" variant="dark" menuVariant='dark'>
-                                            <Dropdown.Item id={[elem[1].id, elem[0][key].usd]} name={elem[0][key].usd} onClick={handleClosePosition}>CLOSE POSITION</Dropdown.Item>
+                                            <Dropdown.Item id={elem[1].id} name={elem[0][key].usd} onClick={handleCloseClick}>CLOSE POSITION</Dropdown.Item>
                                             <Dropdown.Item id={elem[1].id} key={elem[0][key].usd} name={elem[0][key].usd} onClick={handleEditClick}>EDIT</Dropdown.Item>
                                             <Dropdown.Item id={elem[1].id} name="delete-pos" onClick={handlePositionDelete}>DELETE</Dropdown.Item>
                                     </DropdownButton>
@@ -120,16 +123,19 @@ let Portfolio = (props) => {
   
 // position delete 
     const handlePositionDelete = async (evt) => {
-        props.setTriggerUpdate(false)
         let position_id = evt.target.id
         await BackendAPI.deleteUserPosition(localStorage.getItem("auth-user"), position_id)
-        props.setTriggerUpdate(true)
+        let positionsCopy = [...props.positions]
+        let newPositions = positionsCopy.filter(elem => elem.id != position_id)
+        props.setPositions(newPositions)
     }
 
-    const handleClosePosition = async (event) => {
+    const handleCloseClick = async (event) => {
         let positionID = event.target.id
-        
-        console.log(positionID)
+        let data = await BackendAPI.fetchPosition(localStorage.getItem('auth-user'), positionID)
+        let response = await data
+        setPositionForClose(response)
+        setShowCloseForm(true)
     }
 
     return (
@@ -160,13 +166,17 @@ let Portfolio = (props) => {
                         { showEditForm && 
                             <EditPosForm setTriggerUpdate={props.setTriggerUpdate} setShowEditForm={setShowEditForm} positionForEdit={positionForEdit} currentPriceEdit={currentPriceEdit} />
                         }
+
+                        { showCloseForm && 
+                            <ClosePosForm setShowCloseForm={setShowCloseForm} positionForClose={positionForClose} positions={props.positions} setPositions={props.setPositions} closedPositions={props.closedPositions} setClosedPositions={props.setClosedPositions}/>
+                        }
                         
-                        { !showEditForm && 
+                        { (!showEditForm && !showCloseForm) && 
                             renderPositions()
                         }
                     </Tab>
                     <Tab eventKey="new-pos" title="Add Position" unmountOnExit="true">
-                           <NewPosForm coinList={props.coinList} setTriggerUpdate={props.setTriggerUpdate}/> 
+                           <NewPosForm coinList={props.coinList} positions={props.positions} setPositions={props.setPositions}/> 
                     </Tab>
                     <Tab eventKey="sold" title="Closed">
                             

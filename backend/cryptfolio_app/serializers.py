@@ -19,7 +19,6 @@ class PositionSerializer(serializers.ModelSerializer):
 
 
 class SoldAssetSerializer(serializers.ModelSerializer):
-    position = PositionSerializer(read_only = True)
     
     class Meta:
         model = SoldAsset

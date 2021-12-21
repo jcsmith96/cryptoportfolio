@@ -12,10 +12,10 @@ let EditPosForm = (props) => {
           price_purchased: event.target.elements[1].value
         }
         await BackendAPI.editPosition(localStorage.getItem("auth-user"), props.positionForEdit.id, posData)
+
         props.setTriggerUpdate(true)
         props.setShowEditForm(false)
       }
-
 
 
     return (

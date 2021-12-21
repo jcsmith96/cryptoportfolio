@@ -1,6 +1,6 @@
 const WATCHLIST_URL = 'http://localhost:8000/watchlist/'
 const POSITIONS_URL = 'http://localhost:8000/positions/'
-// const SOLDASSETS_URL = 'http://localhost:8000/soldassets/'
+const SOLDASSETS_URL = 'http://localhost:8000/soldassets/'
 
 // WATCHLIST REQUESTS
 const fetchWatchList = async (token) => {
@@ -104,6 +104,49 @@ const deleteUserPosition = async (token, position_id) => {
   
 }
 
+const fetchClosedPositions = async (token) => {
+  const url = SOLDASSETS_URL
+    const init = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization:`JWT ${token}`
+        }
+    }
+    let response = await fetch(url, init)
+    let data = await response.json()
+    return data
+  }
+
+const setPositionClose = async (token, positionID, positionObj) => {
+  const url = POSITIONS_URL + `${positionID}/`
+  const init = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `JWT ${token}`
+    },
+    body: JSON.stringify(positionObj)
+  }
+  let response = await fetch(url, init)
+  let data = await response.json()
+  return data
+}
+
+const closePosition = async (token, positionObj) => {
+  const url = SOLDASSETS_URL
+  const init = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `JWT ${token}`
+    },
+    body: JSON.stringify(positionObj)
+  }
+  let response = await fetch(url, init)
+  let data = await response.json()
+  return data 
+}
+
   const exportItems = {
     fetchWatchList,
     deleteWatchItem,
@@ -113,6 +156,9 @@ const deleteUserPosition = async (token, position_id) => {
     addNewPosition,
     editPosition,
     fetchPosition,
+    fetchClosedPositions,
+    closePosition,
+    setPositionClose,
   }
   
   export default exportItems
