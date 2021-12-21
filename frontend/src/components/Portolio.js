@@ -11,6 +11,7 @@ import NewPosForm from './NewPosForm'
 import EditPosForm from './EditPosForm'
 import PortfolioSummary from './PortfolioSummary'
 import ClosePosForm from './ClosePosForm'
+import ClosedPositionsList from './ClosedPositionsList'
 
 
 let Portfolio = (props) => {
@@ -179,7 +180,7 @@ let Portfolio = (props) => {
                            <NewPosForm coinList={props.coinList} positions={props.positions} setPositions={props.setPositions}/> 
                     </Tab>
                     <Tab eventKey="sold" title="Closed">
-                            
+                               <ClosedPositionsList closedPositions={props.closedPositions}/>
                     </Tab>
                     </Tabs>
                 }

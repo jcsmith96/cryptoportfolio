@@ -24,6 +24,7 @@ class Watchlist(models.Model):
 class SoldAsset(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sold_assets')
     position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name='positions')
+    price_purchased = models.DecimalField(max_digits=16, decimal_places=2)
     asset_id = models.CharField(max_length=20)
     amount_sold = models.DecimalField(max_digits=16, decimal_places=9) 
     date_sold = models.DateField(auto_now=False, auto_now_add=False)

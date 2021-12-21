@@ -12,6 +12,7 @@ let ClosePosForm = (props) => {
         const posData = {
           user: user.id,  
           position: props.positionForClose.id,
+          price_purchased: props.positionForClose.price_purchased,
           asset_id: props.positionForClose.asset_id,
           amount_sold: props.positionForClose.quantity,
           date_sold: event.target.elements[1].value,

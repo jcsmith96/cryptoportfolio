@@ -32,7 +32,7 @@ const PortfolioSummary = (props) => {
                     <Card.Body>
                         <Container className="summary-card-container">
                             <Col className='sum-item'> <h4>PnL % </h4> </Col>
-                            { props.totalPnl && <Col className='sum-item'> <h4 className={props.totalPnl > 0 ? 'positive': 'negative'}>{Number(props.totalPnl.toFixed(3)).toLocaleString('en-US')}%</h4></Col> }
+                            { props.totalPnl && <Col className='sum-item'> <h4 className={props.totalPnl > 0 ? 'positive': 'negative'}>{Number(props.totalPnl.toFixed(3))}%</h4></Col> }
                         </Container>
                     </Card.Body>
                 </Card>
