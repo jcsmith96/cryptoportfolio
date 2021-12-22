@@ -241,11 +241,13 @@
 
 .portfolio-summary-div {
   margin-top: 40px;
+  max-width:fit-content !important;
 }
 
 .summary-card-container {
   display: flex !important;
   gap: 20px
+  
 }
 
 .sum-item {
@@ -383,4 +385,17 @@
 
 .close-card {
   margin-top: 30px;
+}
+
+
+#portfolio-balance-chart {
+  align-items: center;
+  margin: auto !important;
+}
+
+.portfolio-balance-chart.chart-container.container {
+  display: flex;
+  align-items: center;
+  max-width: fit-content !important;
+ 
 }

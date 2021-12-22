@@ -1,10 +1,79 @@
 import { Container, Col, Card } from 'react-bootstrap'
+import { createChart, CrosshairMode } from 'lightweight-charts';
+import { useEffect, useState } from 'react';
+import {data} from './data.js'
 
 const PortfolioSummary = (props) => {
-   
+    const [chartData, setChartData] = useState(null)
+
+    
+    useEffect(() => {
+        const formatDate = (str) => {
+            let arr = []
+            let strSplit = str.split(',')
+            strSplit.pop()
+            let splitTwo = strSplit[0].split('/')
+            for(let i=splitTwo.length-1; i >= 0; i--){
+                arr.push(splitTwo[i])
+            }
+            return arr.join('-')
+        }
+        
+        // console.log(formatDate(new Date(data.prices[0][0]).toLocaleString("en-gb")))
+        let formattedData = []
+        data.prices.forEach((elem) => {
+            formattedData.push({time: formatDate(new Date(elem[0]).toLocaleString("en-gb")), value:elem[1]})
+        })
+        setChartData(formattedData)
+       
+    }, [])
+
+    
+    useEffect(() => {
+        if (chartData){
+        var chart = createChart(document.getElementById("portfolio-balance-chart"), {
+            width: 425,
+            height:250,
+            crosshair: {
+                mode: CrosshairMode.Normal
+              }
+        ,
+        priceScale: {
+          scaleMargins: {
+            top: 0.3,
+            bottom: 0.25
+          },
+          borderVisible: false
+        }, 
+        layout: {
+            backgroundColor: "rgba(33,37,41)",
+            textColor: "#d1d4dc"
+          },
+          grid: {
+            vertLines: {
+              color: "rgba(42, 46, 57, 0)"
+            },
+            horzLines: {
+              color: "rgba(42, 46, 57, 0.6)"
+            }
+        }
+    })
+    
+
+  const lineSeries = chart.addLineSeries({
+        color: "#008000"
+    })
+        
+        lineSeries.setData(chartData)
+
+    chart.timeScale().fitContent()
+    }
+
+    }, [chartData])
+
 
     let renderSummary = ()  => {
-        return <Container className="portfolio-summary-div">
+        return <Container>
                     <Card className="summary-card" bg="dark">
                         <Card.Body>
                             <Container className="summary-card-container">
@@ -36,15 +105,25 @@ const PortfolioSummary = (props) => {
                         </Container>
                     </Card.Body>
                 </Card>
+                
             </Container>
 
     }
 
+    // const chart = createChart(Container);
+
+
+ 
+
     return (
-        <Container>
+        <Container className="portfolio-summary-div">
             { props.portfolioBalance && 
                 renderSummary()
             }
+          <Container className="chart-container" id="portfolio-balance-chart">
+
+            </Container>
+         
         </Container>
     )
 
