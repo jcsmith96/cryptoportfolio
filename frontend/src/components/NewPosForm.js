@@ -13,6 +13,7 @@ let NewPosForm = (props) => {
 
 
     const handleNewPosSubmit = async (event) => {
+        // props.setTriggerUpdate(false)
         event.preventDefault()
         const posData = {
           user: user.id,
@@ -24,7 +25,9 @@ let NewPosForm = (props) => {
         }
         await BackendAPI.addNewPosition(localStorage.getItem("auth-user"), posData)
         props.setPositions([...props.positions, posData])
+        // props.setTriggerUpdate(true)
         setHideForm(true)
+
       }
 
     const handleSelectAsset = (event) => {
@@ -33,26 +36,6 @@ let NewPosForm = (props) => {
           setAsset(asset_id)
           setSearchFilter('') 
       }
-
-    // const renderDropMenu = () => {
-    // return <Dropdown className="coin-list-dropdown" >
-    //         <Dropdown.Toggle variant="dark">Select Asset</Dropdown.Toggle>
-    //         <Dropdown.Menu variant="dark" className="add-pos-drop"> 
-    //         <div className="search-bar">
-    //         <InputGroup>
-    //         <InputGroup.Text>Search</InputGroup.Text>
-    //           <FormControl placeholder="Search" value={searchFilter} onChange={(evt) => {setSearchFilter(evt.target.value)}}/>
-    //         </InputGroup>
-    //         </div>
-    //   { props.coinList.filter(coin => { 
-    //     return searchFilter === "" || coin.id.toLowerCase().includes(searchFilter.toLowerCase())
-    //     }).map((elem) => {
-    //     return <Dropdown.Item id={elem.id} key={elem.id} onClick={handleSelectAsset}>{elem.id.toUpperCase()}</Dropdown.Item>
-    //   })
-    //         }
-    //     </Dropdown.Menu>
-    //     </Dropdown>
-    //     }
 
 
     return ( 

@@ -39,7 +39,8 @@ let Portfolio = (props) => {
             }
             getPrices()
         }
-    }, [props.positions, props.triggerUpdate])
+    }, [props.positions])
+
 
 // calculates total balance and PNL % 
     useEffect(() => {
@@ -144,7 +145,7 @@ let Portfolio = (props) => {
             { user && 
             <Tabs defaultActiveKey="portfolio-summary" id="portfolio-tabs" className="mb-3">
                     <Tab eventKey="portfolio-summary" title="Portfolio Summary">
-                        <PortfolioSummary portfolioBalance={portfolioBalance} totalPnl={totalPnl} pnlUsd={pnlUsd} date={props.date} positions={props.positions}/>
+                        <PortfolioSummary portfolioBalance={portfolioBalance} totalPnl={totalPnl} pnlUsd={pnlUsd} date={props.date} positions={props.positions} triggerUpdate={props.triggerUpdate}/>
                     </Tab>
                     <Tab eventKey="positions" title="Positions" className="tabs" >
                     { !showEditForm ?    
@@ -177,7 +178,7 @@ let Portfolio = (props) => {
                         }
                     </Tab>
                     <Tab eventKey="new-pos" title="Add Position" unmountOnExit="true">
-                           <NewPosForm coinList={props.coinList} positions={props.positions} setPositions={props.setPositions}/> 
+                           <NewPosForm coinList={props.coinList} positions={props.positions} setPositions={props.setPositions} setTriggerUpdate={props.setTriggerUpdate}/> 
                     </Tab>
                     <Tab eventKey="sold" title="Closed">
                                <ClosedPositionsList closedPositions={props.closedPositions}/>

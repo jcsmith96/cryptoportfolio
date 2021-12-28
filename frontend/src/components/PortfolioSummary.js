@@ -1,20 +1,23 @@
 import { Container, Col, Card } from 'react-bootstrap'
-import { createChart, CrosshairMode } from 'lightweight-charts';
+
 import { useEffect, useState } from 'react';
 import {data} from './data.js'
 import CoinGeckoAPI from '../api/CoinGeckoAPI'
+import PortfolioBalanceChart from './PortfolioBalanceChart.js';
 
 const PortfolioSummary = (props) => {
     const [positionsPriceHistory, setPositionsPriceHistory] = useState(null)
     const [chartPricesPaired, setChartPricesPaired] = useState(null)
+    const [sortedData, setSortedData] = useState(null)
     const [chartData, setChartData] = useState(null)
     const [currentDate, setCurrentDate] = useState((new Date(props.date).getTime()/1000))
+
 
 // GRABS MARKET CHART RANGE DATA AND SETS STATE VAR 
 useEffect(() => {
     if (props.positions){
     let getPriceHistory = async () => {
-        let priceData = []
+
         let priceHistory = props.positions.map(async (elem) => {
             return await CoinGeckoAPI.fetchPriceHistory(elem.asset_id, (new Date(elem.date_purchased).getTime() / 1000), currentDate)
             })
@@ -26,6 +29,7 @@ useEffect(() => {
     getPriceHistory()
 }
 }, [props.positions, props.date])
+
 
 // KEY VALUE PAIRS DATA WITH POSITION THEN RETURNS WITH PRICE * QUANTITY 
 useEffect(() => {
@@ -52,73 +56,59 @@ useEffect(() => {
 
 }, [positionsPriceHistory])
 
+
+
 // PUSHES DAILY CLOSES INTO ONE ARRAY , SORTS THEN ADDS THE VALUES UP OF MATCHING DATES THEN REMOVES  
 useEffect(() => {
     let dailyCloses = []
+    let finalChartData = []
     if (chartPricesPaired){
         chartPricesPaired.forEach((elem) => {
             let closes = []
             for (let i = 0; i < elem.length-1; i++){
                 if (elem[i].time != elem[i+1].time){
                     dailyCloses.push(elem[i])
+                    
                 }
             }
+            dailyCloses.push(elem[elem.length-1])
         })
 
         dailyCloses.sort((a, b) => new Date(a.time) - new Date(b.time))
+        console.log(dailyCloses)
         
         for (let j=0; j<dailyCloses.length-1; j++){
             if (dailyCloses[j].time == dailyCloses[j+1].time){
                 dailyCloses[j+1].value += dailyCloses[j].value
-                dailyCloses.splice(j, 1)
             }
         }
-        setChartData(dailyCloses)
+
+        
+
+        setSortedData(dailyCloses)
     }
     
 }, [chartPricesPaired])
 
+
+
+//SETs THE FINAL CHART DATA 
     useEffect(() => {
-        if (chartData){
-        var chart = createChart(document.getElementById("portfolio-balance-chart"), {
-            width: 425,
-            height:250,
-            crosshair: {
-                mode: CrosshairMode.Normal
-              }
-        ,
-        priceScale: {
-          scaleMargins: {
-            top: 0.3,
-            bottom: 0.25
-          },
-          borderVisible: false
-        }, 
-        layout: {
-            backgroundColor: "rgba(33,37,41)",
-            textColor: "#d1d4dc"
-          },
-          grid: {
-            vertLines: {
-              color: "rgba(42, 46, 57, 0)"
-            },
-            horzLines: {
-              color: "rgba(42, 46, 57, 0.6)"
-            }
+        if (sortedData){
+            let finalChartData = []
+                for (let k=0; k<sortedData.length-1; k++){
+                    if (sortedData[k].time !== sortedData[k+1].time){
+                        finalChartData.push(sortedData[k])
+                    }
+                }
+                finalChartData.push(sortedData[sortedData.length-1])
+                setChartData(finalChartData)
         }
-    })
-    
 
-  const lineSeries = chart.addLineSeries({
-        color: "#008000"
-    })
-        
-        lineSeries.setData(chartData)
+    }, [sortedData] )
 
-    chart.timeScale().fitContent()
-    }
 
-    }, [chartData])
+
 
 
     let renderSummary = ()  => {
@@ -169,9 +159,9 @@ useEffect(() => {
             { props.portfolioBalance && 
                 renderSummary()
             }
-          <Container className="chart-container" id="portfolio-balance-chart">
-
-            </Container>
+            { chartData &&
+          <PortfolioBalanceChart chartData={chartData} triggerUpdate={props.triggerUpdate}/>
+            }       
          
         </Container>
     )

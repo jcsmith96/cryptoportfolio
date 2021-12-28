@@ -31,7 +31,7 @@ const HomePage = ({ isLoggedIn, coinList }) => {
             } 
         let currentDate = (yyyy+ '-' + mm + '-' + dd)
             setDate(currentDate)
-        }, [])
+        }, [user])
 
 
 
@@ -61,7 +61,8 @@ const HomePage = ({ isLoggedIn, coinList }) => {
       <Container>
           <Row>
             <Col className="homepage-container"><Watchlist coinList={coinList} isLoggedIn={isLoggedIn}></Watchlist></Col>
-            <Col ><Portfolio coinList={coinList} setPositions={setPositions} date={date} positions={positions} isLoggedIn={isLoggedIn} setTriggerUpdate={setTriggerUpdate} closedPositions={closedPositions} setClosedPositions={setClosedPositions}></Portfolio></Col>
+            <Col ><Portfolio coinList={coinList} setPositions={setPositions} date={date} positions={positions} isLoggedIn={isLoggedIn} setTriggerUpdate={setTriggerUpdate} 
+                              closedPositions={closedPositions} setClosedPositions={setClosedPositions} triggerUpdate={triggerUpdate}></Portfolio></Col>
             <Col className="homepage-container"><News positions={positions} date={date}></News></Col>
           </Row>
       </Container>
