@@ -142,9 +142,9 @@ let Portfolio = (props) => {
     return (
         <Container className="portfolio" xs={6}>
             { user && 
-            <Tabs defaultActiveKey="positions" id="portfolio-tabs" className="mb-3">
+            <Tabs defaultActiveKey="portfolio-summary" id="portfolio-tabs" className="mb-3">
                     <Tab eventKey="portfolio-summary" title="Portfolio Summary">
-                        <PortfolioSummary portfolioBalance={portfolioBalance} totalPnl={totalPnl} pnlUsd={pnlUsd}/>
+                        <PortfolioSummary portfolioBalance={portfolioBalance} totalPnl={totalPnl} pnlUsd={pnlUsd} date={props.date} positions={props.positions}/>
                     </Tab>
                     <Tab eventKey="positions" title="Positions" className="tabs" >
                     { !showEditForm ?    

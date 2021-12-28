@@ -12,6 +12,28 @@ const HomePage = ({ isLoggedIn, coinList }) => {
   const [positions, setPositions] = useState(null)
   const [closedPositions, setClosedPositions] = useState(null)
   const [triggerUpdate, setTriggerUpdate] = useState(false)
+  const [date, setDate] = useState(null)
+
+  // sets date to todays date 
+     useEffect(() => {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; 
+        var yyyy = today.getFullYear();
+            if(dd<10) 
+            {
+            dd='0'+dd;
+            } 
+
+            if(mm<10) 
+            {
+            mm='0'+mm;
+            } 
+        let currentDate = (yyyy+ '-' + mm + '-' + dd)
+            setDate(currentDate)
+        }, [])
+
+
 
   useEffect(() => {
         const getPositions = async () => {
@@ -29,7 +51,8 @@ const HomePage = ({ isLoggedIn, coinList }) => {
      }
      getClosed()
   }, [])
-  console.log(closedPositions)
+  
+
   return (
     <Container fluid className="home-container">
 
@@ -38,8 +61,8 @@ const HomePage = ({ isLoggedIn, coinList }) => {
       <Container>
           <Row>
             <Col className="homepage-container"><Watchlist coinList={coinList} isLoggedIn={isLoggedIn}></Watchlist></Col>
-            <Col ><Portfolio coinList={coinList} setPositions={setPositions} positions={positions} isLoggedIn={isLoggedIn} setTriggerUpdate={setTriggerUpdate} closedPositions={closedPositions} setClosedPositions={setClosedPositions}></Portfolio></Col>
-            <Col className="homepage-container"><News positions={positions}></News></Col>
+            <Col ><Portfolio coinList={coinList} setPositions={setPositions} date={date} positions={positions} isLoggedIn={isLoggedIn} setTriggerUpdate={setTriggerUpdate} closedPositions={closedPositions} setClosedPositions={setClosedPositions}></Portfolio></Col>
+            <Col className="homepage-container"><News positions={positions} date={date}></News></Col>
           </Row>
       </Container>
     }

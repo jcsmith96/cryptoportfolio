@@ -9,7 +9,6 @@ let News = (props) => {
     const { user } = useContext(UserContext)
     const [keywords, setKeywords] = useState(null)
     const [news, setNews] = useState(null)
-    const [date, setDate] = useState(null)
     const [isLoaded, setisLoaded] = useState(false)
     const [currentPage, setCurrentPage] = useState(0)
     const [pageCount, setPageCount] = useState(0)
@@ -27,35 +26,17 @@ let News = (props) => {
 //         }
 //     }, [props.positions, user])
 
-// // sets date to todays date 
-//      useEffect(() => {
-//         var today = new Date();
-//         var dd = today.getDate();
-//         var mm = today.getMonth()+1; 
-//         var yyyy = today.getFullYear();
-//             if(dd<10) 
-//             {
-//             dd='0'+dd;
-//             } 
-
-//             if(mm<10) 
-//             {
-//             mm='0'+mm;
-//             } 
-//         let currentDate = (yyyy+ '-' + mm + '-' + dd)
-//             setDate(currentDate)
-//         }, [])
 
 // // when fetches news and sets new variable 
 //     useEffect(() => {
-//         if (date){
+//         if (props.date){
         
 //         fetchNews()
 //         }
 //     }, [keywords])
 
 //     const fetchNews = async () => {
-//         const url = `http://api.mediastack.com/v1/news?access_key=${newsAPIKey}&date=${date}&countries=us&languages=en&limit=5&keywords=${keywords}&offset=${currentPage}`
+//         const url = `http://api.mediastack.com/v1/news?access_key=${newsAPIKey}&date=${props.date}&countries=us&languages=en&limit=5&keywords=${keywords}&offset=${currentPage}`
 //         let response = await fetch(url)
 //         let data = await response.json()
 //         setNews(data)
