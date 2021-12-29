@@ -22,6 +22,7 @@ function App() {
   const [ user, setUser ] = useState(null);
   const [error, setError] = useState(null);
   const [coinList, setCoinList] = useState(null);
+  const [loginError, setLoginError] = useState(false)
   
 
   //effects
@@ -64,7 +65,12 @@ function App() {
       localStorage.setItem("auth-user", `${data.token}`);
       setUser(data.user);
       setIsLoggedIn(true);
+      setLoginError(false)
     }
+    if (!data.token) {
+      setLoginError(true)
+    }
+
   }
 
   const handleLogout = () => {
@@ -81,7 +87,7 @@ function App() {
         <AppNav isLoggedIn={isLoggedIn} handleLogout={handleLogout} setUser={setUser} user={user}/>
           <Routes>
             <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} coinList={coinList} user={user}/> } />
-            <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} user={user} />} />
+            <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} user={user} loginError={loginError}/>} />
             <Route path="/signup" element={<SignupPage />} />
           </Routes>
         </UserContext.Provider>

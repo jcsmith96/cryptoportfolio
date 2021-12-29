@@ -19,7 +19,6 @@ class PositionSerializer(serializers.ModelSerializer):
 
 
 class SoldAssetSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = SoldAsset
         fields = ['id', 'user', 'position', 'price_purchased', 'asset_id', 'amount_sold', 'date_sold', 'price_sold']

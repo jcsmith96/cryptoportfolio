@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { signupUser } from '../api/UserAPI';
 
@@ -25,14 +25,18 @@ const SignupPage = (props) => {
 
   return (
     <Container className='login-div'>
-      <h1 className="login-header">Signup Page</h1>
-      <form onSubmit={handleSignup}>
-        <label className="login-header">UserName:</label>
-        <input type='text'name='username' />
-        <label className="login-header">Password:</label>
-        <input type='password' name='password' />
-        <button type='submit' >Sign Up</button>
-      </form>
+      <h3 className="login-header">Signup!</h3>
+      <Form className="login-form" onSubmit={handleSignup}>
+        <Form.Group className="cred-form-div">
+        <Form.Label className='login-header'>Username:</Form.Label>
+        <Form.Control type='text' name='username' placeholder="username" />
+        </Form.Group>
+        <Form.Group className="cred-form-div">
+        <Form.Label className='login-header'>Password:</Form.Label>
+        <Form.Control type='password' name='password' placeholder="password"/>
+        </Form.Group>
+        <Button className="cred-button" type='submit' variant="success">Submit</Button>
+      </Form>
     </Container>
   );
 };
