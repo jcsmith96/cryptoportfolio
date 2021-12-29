@@ -14,13 +14,13 @@ let AppNav = (props) => {
         return user
         ? (
          <div className="nav-button-div">
-        <Nav.Item className="welcome-message">Welcome {user.username}!!</Nav.Item>
-        <Nav.Item><Button className="button" variant="danger" size="sm" onClick={props.handleLogout}>Logout</Button></Nav.Item>
+            <Nav.Item className="welcome-message">Welcome {user.username}!!</Nav.Item>
+            <Nav.Item><Button className="button" variant="danger" size="sm" onClick={props.handleLogout}>Logout</Button></Nav.Item>
         </div>
         ) : (
         <div className="nav-button-div">  
-        <Nav.Item><Button className="button" variant="warning" size="sm" onClick={() => navigate('/login')}>Login</Button></Nav.Item>
-        <Nav.Item><Button className="button" variant="warning" size="sm" onClick={() => navigate('/signup')}>Sign Up</Button></Nav.Item>
+            <Nav.Item><Button className="button" variant="warning" size="sm" onClick={() => navigate('/login')}>Login</Button></Nav.Item>
+            <Nav.Item><Button className="button" variant="warning" size="sm" onClick={() => navigate('/signup')}>Sign Up</Button></Nav.Item>
         </div> 
         )
     }

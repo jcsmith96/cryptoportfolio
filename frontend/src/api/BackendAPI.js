@@ -147,6 +147,12 @@ const closePosition = async (token, positionObj) => {
   return data 
 }
 
+const deleteClosedPosition = async (token, closed_id) => {
+  const url = SOLDASSETS_URL + `${closed_id}`
+  await fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json', Authorization: `JWT ${token}`}})
+  
+}
+
   const exportItems = {
     fetchWatchList,
     deleteWatchItem,
@@ -159,6 +165,7 @@ const closePosition = async (token, positionObj) => {
     fetchClosedPositions,
     closePosition,
     setPositionClose,
+    deleteClosedPosition,
   }
   
   export default exportItems

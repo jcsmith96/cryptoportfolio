@@ -1,7 +1,6 @@
 import { Container, Col, Card } from 'react-bootstrap'
 
 import { useEffect, useState } from 'react';
-import {data} from './data.js'
 import CoinGeckoAPI from '../api/CoinGeckoAPI'
 import PortfolioBalanceChart from './PortfolioBalanceChart.js';
 
@@ -66,6 +65,7 @@ useEffect(() => {
         chartPricesPaired.forEach((elem) => {
             let closes = []
             for (let i = 0; i < elem.length-1; i++){
+
                 if (elem[i].time != elem[i+1].time){
                     dailyCloses.push(elem[i])
                     
@@ -75,15 +75,12 @@ useEffect(() => {
         })
 
         dailyCloses.sort((a, b) => new Date(a.time) - new Date(b.time))
-        console.log(dailyCloses)
         
         for (let j=0; j<dailyCloses.length-1; j++){
             if (dailyCloses[j].time == dailyCloses[j+1].time){
                 dailyCloses[j+1].value += dailyCloses[j].value
             }
         }
-
-        
 
         setSortedData(dailyCloses)
     }
@@ -112,54 +109,59 @@ useEffect(() => {
 
 
     let renderSummary = ()  => {
-        return <Container>
-                    <Card className="summary-card" bg="dark">
+        if (props.positions && props.positions.length > 0){
+            return <Container>
+                        <Card className="summary-card" bg="dark">
+                            <Card.Body>
+                                <Container className="summary-card-container">
+                                    <Col className='sum-item'> <h4>Balance</h4> </Col>
+                                    <Col className='sum-item'> <h4>${Number(props.portfolioBalance).toLocaleString("en-US")}</h4></Col>
+                                </Container>
+                            </Card.Body>
+                        </Card>
+                        <Card className="summary-card" bg="dark">
                         <Card.Body>
                             <Container className="summary-card-container">
-                                <Col className='sum-item'> <h4>Balance</h4> </Col>
-                                <Col className='sum-item'> <h4>${Number(props.portfolioBalance).toLocaleString("en-US")}</h4></Col>
+                                <Col className='sum-item'> <h4>Profit/Loss</h4> </Col>
+                                { props.pnlUsd > 0 
+                                    ? 
+                                    <Col className='sum-item'><h4 className={'positive'}>
+                                        +${Number(props.pnlUsd).toLocaleString('en-US')}</h4></Col>
+                                    :
+                                    <Col className='sum-item'><h4 className={'negative'}>
+                                        -${Math.abs(Number(props.pnlUsd)).toLocaleString('en-US')}</h4></Col>
+                                }
+                            </Container>
+                        </Card.Body>
+                        </Card>
+                        <Card className="summary-card" bg="dark">
+                        <Card.Body>
+                            <Container className="summary-card-container">
+                                <Col className='sum-item'> <h4>PnL % </h4> </Col>
+                                { props.totalPnl && <Col className='sum-item'> <h4 className={props.totalPnl > 0 ? 'positive': 'negative'}>{Number(props.totalPnl.toFixed(3))}%</h4></Col> }
                             </Container>
                         </Card.Body>
                     </Card>
-                    <Card className="summary-card" bg="dark">
-                    <Card.Body>
-                        <Container className="summary-card-container">
-                            <Col className='sum-item'> <h4>Profit/Loss</h4> </Col>
-                            { props.pnlUsd > 0 
-                                ? 
-                                <Col className='sum-item'><h4 className={'positive'}>
-                                    +${Number(props.pnlUsd).toLocaleString('en-US')}</h4></Col>
-                                :
-                                <Col className='sum-item'><h4 className={'negative'}>
-                                    -${Math.abs(Number(props.pnlUsd)).toLocaleString('en-US')}</h4></Col>
-                            }
-                        </Container>
-                    </Card.Body>
-                    </Card>
-                    <Card className="summary-card" bg="dark">
-                    <Card.Body>
-                        <Container className="summary-card-container">
-                            <Col className='sum-item'> <h4>PnL % </h4> </Col>
-                            { props.totalPnl && <Col className='sum-item'> <h4 className={props.totalPnl > 0 ? 'positive': 'negative'}>{Number(props.totalPnl.toFixed(3))}%</h4></Col> }
-                        </Container>
-                    </Card.Body>
-                </Card>
-                
-            </Container>
+                </Container>
+         }
 
     }
-
-
-
 
  
 
     return (
         <Container className="portfolio-summary-div">
+             { (!props.positions || props.positions.length === 0)  && 
+                <div>
+                    <h5 className="no-history-alert">You currently have no open positions!</h5>
+                    <h5 className="no-history-alert">Click the "Add Position" tab above to start tracking your investments!</h5>
+                </div>
+             }
+            
             { props.portfolioBalance && 
                 renderSummary()
             }
-            { chartData &&
+            { (props.positions && props.positions.length > 0 && chartData && chartData[0] !== undefined) &&
           <PortfolioBalanceChart chartData={chartData} triggerUpdate={props.triggerUpdate}/>
             }       
          

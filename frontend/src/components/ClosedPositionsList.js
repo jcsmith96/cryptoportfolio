@@ -1,4 +1,4 @@
-import { Container, Card, Col } from 'react-bootstrap'
+import { Container, Card, Col, DropdownButton, Dropdown } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import BackendAPI from '../api/BackendAPI'
 
@@ -46,6 +46,11 @@ let ClosedPositionsList = (props) => {
                                     <Col className="negative-pos-pnl">{Number((((elem.price_sold - elem.price_purchased)/ elem.price_purchased)* 100).toFixed(2))}%</Col>
                                     }
                                 </Container>
+                                    <Container className="postion-ud-buttons">
+                                        <DropdownButton title="" id="pos-button-dropdown" variant="dark" menuVariant='dark'>
+                                                <Dropdown.Item id={elem.id} name="delete-pos" onClick={handleClosedPositionDelete}>DELETE</Dropdown.Item>
+                                        </DropdownButton>
+                                    </Container>
                             </Card.Body>
                     </Card>
                 
@@ -53,10 +58,27 @@ let ClosedPositionsList = (props) => {
         }
     }
 
+    const handleClosedPositionDelete = async (evt) => {
+        let closed_id = evt.target.id
+        await BackendAPI.deleteClosedPosition(localStorage.getItem("auth-user"), closed_id)
+        let closedPositionsCopy = [...props.closedPositions]
+        let newClosed = closedPositionsCopy.filter(elem => elem.id != closed_id)
+
+        if (newClosed.length === 0){
+            props.setClosedPositions(null)
+        } else {
+        props.setClosedPositions(newClosed)
+        }
+    }
+
+
+
 
 return (
     <Container>
         <h5>Closed Positions</h5>
+
+        
          <Card className="title-card" bg="dark">
                     <Card.Body>
                             <Container className="title-card-div">
@@ -68,14 +90,18 @@ return (
                              </Container>
                             </Card.Body>
                     </Card>
+                { (!props.closedPositions || props.closedPositions.length === 0) && 
+                    <h5 className="no-history-alert">You have no closed positions to display!</h5>
+                    }
+
                 { props.closedPositions && 
                     renderClosed()  
                       }
-            
+                { (props.closedPositions && props.closedPositions.length !== 0) && 
                             <Card className="summary-card" bg="dark">
-                    <Card.Body>
-                        <Container className="summary-card-container">
-                            <Col className='sum-item'> <h4>PnL History</h4> </Col>
+                                <Card.Body>
+                                 <Container className="summary-card-container">
+                                <Col className='sum-item'> <h4>PnL History</h4> </Col>
                             { totalPnl > 0 
                                 ? 
                                 <Col className='sum-item'><h4 className={'positive'}>
@@ -87,7 +113,7 @@ return (
                         </Container>
                     </Card.Body>
                     </Card>
-
+                }
 
     </Container> 
 )

@@ -18,8 +18,8 @@ let ClosePosForm = (props) => {
           date_sold: event.target.elements[1].value,
           price_sold: event.target.elements[0].value
         }
-        await BackendAPI.closePosition(localStorage.getItem("auth-user"), posData)
-        props.setClosedPositions([...props.closedPositions, posData])
+        let data = await BackendAPI.closePosition(localStorage.getItem("auth-user"), posData)
+        props.setClosedPositions([...props.closedPositions, data])
 
         const posObj = {
             closed: true

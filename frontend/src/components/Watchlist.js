@@ -82,9 +82,9 @@ let Watchlist = (props) => {
                 asset_id: asset_id
             }
             if (itemObj.user && itemObj.asset_id){
-            await BackendAPI.addWatchItem(localStorage.getItem("auth-user"), itemObj)
-            }
-            setWatchlist([...watchlist, itemObj])
+            let data = await BackendAPI.addWatchItem(localStorage.getItem("auth-user"), itemObj)
+            setWatchlist([...watchlist, data])
+        }
         }
         
                                   
@@ -111,7 +111,7 @@ let Watchlist = (props) => {
             
             </div>
                 }
-            <CoinDropDown coinList={props.coinList} watchlist={watchlist} handleAddWatchItem={handleAddWatchItem}></CoinDropDown>
+            <CoinDropDown coinList={props.coinList} watchlist={watchlist} handleAddWatchItem={handleAddWatchItem} buttonLabel={"ADD"}></CoinDropDown>
         </Container>
     )
 }

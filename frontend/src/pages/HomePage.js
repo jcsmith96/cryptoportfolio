@@ -47,7 +47,9 @@ const HomePage = ({ isLoggedIn, coinList }) => {
   useEffect(() => {
      const getClosed = async () => {
        let data = await BackendAPI.fetchClosedPositions(localStorage.getItem("auth-user"))
-       setClosedPositions(data)
+       
+         setClosedPositions(data)
+      
      }
      getClosed()
   }, [])

@@ -9,8 +9,8 @@ const [searchFilter, setSearchFilter] = useState('')
 
 const renderDropMenu = () => {
     return <Dropdown className="coin-list-dropdown" >
-            <Dropdown.Toggle variant="dark">ADD</Dropdown.Toggle>
-            <Dropdown.Menu variant="dark"> 
+            <Dropdown.Toggle variant="dark">{props.buttonLabel}</Dropdown.Toggle>
+            <Dropdown.Menu className="coin-list-dropmenu" variant="dark"> 
             <div className="search-bar">
             <InputGroup>
             <InputGroup.Text>Search</InputGroup.Text>

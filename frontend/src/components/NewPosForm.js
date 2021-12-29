@@ -13,7 +13,6 @@ let NewPosForm = (props) => {
 
 
     const handleNewPosSubmit = async (event) => {
-        // props.setTriggerUpdate(false)
         event.preventDefault()
         const posData = {
           user: user.id,
@@ -23,11 +22,9 @@ let NewPosForm = (props) => {
           price_purchased: event.target.elements[3].value,
           closed: false
         }
-        await BackendAPI.addNewPosition(localStorage.getItem("auth-user"), posData)
-        props.setPositions([...props.positions, posData])
-        // props.setTriggerUpdate(true)
+        let data = await BackendAPI.addNewPosition(localStorage.getItem("auth-user"), posData)
+        props.setPositions([...props.positions, data])
         setHideForm(true)
-
       }
 
     const handleSelectAsset = (event) => {
@@ -50,7 +47,7 @@ let NewPosForm = (props) => {
                     <Form className="new-pos-form" onSubmit={handleNewPosSubmit}>
                     { props.coinList &&
                         
-                        <CoinDropDown coinList={props.coinList} handleAddWatchItem={handleSelectAsset}/>
+                        <CoinDropDown coinList={props.coinList} buttonLabel={"SELECT ASSET"}handleAddWatchItem={handleSelectAsset}/>
                         
                     }  
                     {  asset &&

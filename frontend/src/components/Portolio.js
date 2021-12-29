@@ -99,7 +99,7 @@ let Portfolio = (props) => {
                                     }
                                 </Container>
                                 <Container className="postion-ud-buttons">
-                                    <DropdownButton title="" id="pos-button-dropdown" variant="dark" menuVariant='dark'>
+                                    <DropdownButton title=""  id="pos-button-dropdown" variant="dark" menuVariant='dark'>
                                             <Dropdown.Item id={elem[1].id} name={elem[0][key].usd} onClick={handleCloseClick}>CLOSE POSITION</Dropdown.Item>
                                             <Dropdown.Item id={elem[1].id} key={elem[0][key].usd} name={elem[0][key].usd} onClick={handleEditClick}>EDIT</Dropdown.Item>
                                             <Dropdown.Item id={elem[1].id} name="delete-pos" onClick={handlePositionDelete}>DELETE</Dropdown.Item>
@@ -172,6 +172,13 @@ let Portfolio = (props) => {
                         { showCloseForm && 
                             <ClosePosForm setShowCloseForm={setShowCloseForm} positionForClose={positionForClose} positions={props.positions} setPositions={props.setPositions} closedPositions={props.closedPositions} setClosedPositions={props.setClosedPositions}/>
                         }
+
+                        { (!props.positions || props.positions.length === 0) &&
+                            <div>
+                            <h5 className="no-history-alert">You currently have no open positions!</h5>
+                            <h5 className="no-history-alert">Click the "Add Position" tab above to start tracking your investments!</h5>
+                            </div>
+                        }
                         
                         { (!showEditForm && !showCloseForm) && 
                             renderPositions()
@@ -181,7 +188,7 @@ let Portfolio = (props) => {
                            <NewPosForm coinList={props.coinList} positions={props.positions} setPositions={props.setPositions} setTriggerUpdate={props.setTriggerUpdate}/> 
                     </Tab>
                     <Tab eventKey="sold" title="Closed">
-                               <ClosedPositionsList closedPositions={props.closedPositions}/>
+                               <ClosedPositionsList closedPositions={props.closedPositions} setClosedPositions={props.setClosedPositions}/>
                     </Tab>
                     </Tabs>
                 }

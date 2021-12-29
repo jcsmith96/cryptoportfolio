@@ -53,10 +53,12 @@ let PortfolioBalanceChart = (props) => {
 
 
     return (
+
+      props.chartData && 
         <Container className="chart-container" id="portfolio-balance-chart">
 
         </Container>
-
+        
     )
 
 
