@@ -24,7 +24,10 @@ let NewPosForm = (props) => {
         }
         let data = await BackendAPI.addNewPosition(localStorage.getItem("auth-user"), posData)
         props.setPositions([...props.positions, data])
+        props.setAllPositions([...props.allPositions, data])
         setHideForm(true)
+
+
       }
 
     const handleSelectAsset = (event) => {

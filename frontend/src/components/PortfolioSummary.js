@@ -14,11 +14,15 @@ const PortfolioSummary = (props) => {
 
 // GRABS MARKET CHART RANGE DATA AND SETS STATE VAR 
 useEffect(() => {
-    if (props.positions){
+    if (props.allPositions){
     let getPriceHistory = async () => {
 
-        let priceHistory = props.positions.map(async (elem) => {
-            return await CoinGeckoAPI.fetchPriceHistory(elem.asset_id, (new Date(elem.date_purchased).getTime() / 1000), currentDate)
+        let priceHistory = props.allPositions.map(async (elem) => {
+            if (!elem.date_closed) {
+                return await CoinGeckoAPI.fetchPriceHistory(elem.asset_id, (new Date(elem.date_purchased).getTime() / 1000), currentDate)
+            } else {
+                return await CoinGeckoAPI.fetchPriceHistory(elem.asset_id, (new Date(elem.date_purchased).getTime() / 1000), (new Date(elem.date_closed).getTime() / 1000))
+            }
             })
         Promise.all(priceHistory).then((values) => {
             setPositionsPriceHistory(values)
@@ -27,7 +31,8 @@ useEffect(() => {
     }
     getPriceHistory()
 }
-}, [props.positions, props.date])
+}, [props.allPositions, props.date])
+
 
 
 // KEY VALUE PAIRS DATA WITH POSITION THEN RETURNS WITH PRICE * QUANTITY 
@@ -45,7 +50,7 @@ useEffect(() => {
 
     if (positionsPriceHistory){
         
-       let paired =  props.positions.map((x, i) => [x, positionsPriceHistory[i]]).map((elem) => {
+       let paired =  props.allPositions.map((x, i) => [x, positionsPriceHistory[i]]).map((elem) => {
         return elem[1].prices.map((prices) => {
             return {time: formatDate(new Date(prices[0]).toLocaleString("en-gb")), value:(prices[1] * elem[0].quantity)}
         })
@@ -60,10 +65,8 @@ useEffect(() => {
 // PUSHES DAILY CLOSES INTO ONE ARRAY , SORTS THEN ADDS THE VALUES UP OF MATCHING DATES THEN REMOVES  
 useEffect(() => {
     let dailyCloses = []
-    let finalChartData = []
     if (chartPricesPaired){
         chartPricesPaired.forEach((elem) => {
-            let closes = []
             for (let i = 0; i < elem.length-1; i++){
 
                 if (elem[i].time != elem[i+1].time){
@@ -109,7 +112,7 @@ useEffect(() => {
 
 
     let renderSummary = ()  => {
-        if (props.positions && props.positions.length > 0){
+        if (props.allPositions && props.allPositions.length > 0){
             return <Container>
                         <Card className="summary-card" bg="dark">
                             <Card.Body>
@@ -161,7 +164,7 @@ useEffect(() => {
             { props.portfolioBalance && 
                 renderSummary()
             }
-            { (props.positions && props.positions.length > 0 && chartData && chartData[0] !== undefined) &&
+            { (props.allPositions && props.allPositions.length > 0 && chartData && chartData[0] !== undefined) &&
           <PortfolioBalanceChart chartData={chartData} triggerUpdate={props.triggerUpdate}/>
             }       
          

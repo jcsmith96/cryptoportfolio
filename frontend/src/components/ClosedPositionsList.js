@@ -4,6 +4,7 @@ import BackendAPI from '../api/BackendAPI'
 
 let ClosedPositionsList = (props) => {
     const [totalPnl, setTotalPnl] = useState(null)
+    const [closedForDelete, setClosedForDelete] = useState(null)
 
     useEffect(() => {
        if (props.closedPositions){
@@ -47,7 +48,7 @@ let ClosedPositionsList = (props) => {
                                     }
                                 </Container>
                                     <Container className="postion-ud-buttons">
-                                        <DropdownButton title="" id="pos-button-dropdown" variant="dark" menuVariant='dark'>
+                                        <DropdownButton title="" id="pos-button-dropdown" variant="dark" menuVariant='dark' onClick={() => setClosedForDelete({elem})}>
                                                 <Dropdown.Item id={elem.id} name="delete-pos" onClick={handleClosedPositionDelete}>DELETE</Dropdown.Item>
                                         </DropdownButton>
                                     </Container>
@@ -64,15 +65,18 @@ let ClosedPositionsList = (props) => {
         let closedPositionsCopy = [...props.closedPositions]
         let newClosed = closedPositionsCopy.filter(elem => elem.id != closed_id)
 
-        if (newClosed.length === 0){
-            props.setClosedPositions(null)
-        } else {
-        props.setClosedPositions(newClosed)
-        }
+                if (newClosed.length === 0){
+                    props.setClosedPositions(null)
+                } else {
+                props.setClosedPositions(newClosed)
+                }
+        
+        let positionId = closedForDelete.elem.position
+        await BackendAPI.deleteUserPosition(localStorage.getItem("auth-user"), positionId)
+        let allPositionsCopy = [...props.allPositions]
+        let newAll = allPositionsCopy.filter(elem => elem.id != positionId)
+        props.setAllPositions(newAll)
     }
-
-
-
 
 return (
     <Container>

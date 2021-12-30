@@ -8,6 +8,7 @@ class Position(models.Model):
     date_purchased = models.DateField(auto_now=False, auto_now_add=False)
     price_purchased = models.DecimalField(max_digits=16, decimal_places=2)
     closed = models.BooleanField()
+    date_closed = models.DateField(null=True, blank=True, auto_now=False, auto_now_add=False)
 
     def __str__(self):
         return f"ASSET: {self.asset_id} QUANTITY: {self.quantity} PRICE: {self.price_purchased} "

@@ -5,11 +5,13 @@ import Watchlist from '../components/Watchlist.js';
 import Portfolio from '../components/Portolio.js';
 import News from '../components/News.js';
 import BackendAPI from '../api/BackendAPI'
+import { propTypes } from 'react-bootstrap/esm/Image';
 
 const HomePage = ({ isLoggedIn, coinList }) => {
   const userContext = useContext(UserContext);
   const { user } = userContext;
   const [positions, setPositions] = useState(null)
+  const [allPositions, setAllPositions] = useState(null)
   const [closedPositions, setClosedPositions] = useState(null)
   const [triggerUpdate, setTriggerUpdate] = useState(false)
   const [date, setDate] = useState(null)
@@ -40,9 +42,13 @@ const HomePage = ({ isLoggedIn, coinList }) => {
           let data = await BackendAPI.fetchUserPositions(localStorage.getItem("auth-user"))
           let openPositions = data.filter((elem) => elem.closed === false)
           setPositions(openPositions)
+          setAllPositions(data)
         }
+
         getPositions()
   }, [triggerUpdate])
+
+  
 
   useEffect(() => {
      const getClosed = async () => {
@@ -53,6 +59,10 @@ const HomePage = ({ isLoggedIn, coinList }) => {
      }
      getClosed()
   }, [])
+
+ console.log(positions)
+ console.log(allPositions)
+ console.log(closedPositions)
   
 
   return (
@@ -64,7 +74,7 @@ const HomePage = ({ isLoggedIn, coinList }) => {
           <Row>
             <Col className="homepage-container"><Watchlist coinList={coinList} isLoggedIn={isLoggedIn}></Watchlist></Col>
             <Col ><Portfolio coinList={coinList} setPositions={setPositions} date={date} positions={positions} isLoggedIn={isLoggedIn} setTriggerUpdate={setTriggerUpdate} 
-                              closedPositions={closedPositions} setClosedPositions={setClosedPositions} triggerUpdate={triggerUpdate}></Portfolio></Col>
+                              closedPositions={closedPositions} setClosedPositions={setClosedPositions} triggerUpdate={triggerUpdate} allPositions={allPositions} setAllPositions={setAllPositions}></Portfolio></Col>
             <Col className="homepage-container"><News positions={positions} date={date}></News></Col>
           </Row>
       </Container>

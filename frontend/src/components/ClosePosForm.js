@@ -8,6 +8,7 @@ let ClosePosForm = (props) => {
 
     const handleClosePosSubmit = async (event) => {
         event.preventDefault()
+        props.setTriggerUpdate(false)
         let positionID = props.positionForClose.id
         const posData = {
           user: user.id,  
@@ -22,15 +23,16 @@ let ClosePosForm = (props) => {
         props.setClosedPositions([...props.closedPositions, data])
 
         const posObj = {
-            closed: true
+            closed: true,
+            date_closed: event.target.elements[1].value
         }
 
         await BackendAPI.setPositionClose(localStorage.getItem("auth-user"), positionID, posObj)
         let positionsCopy = [...props.positions]
         let newPositions = positionsCopy.filter(elem => elem.id !== positionID)
         props.setPositions(newPositions)
-
         props.setShowCloseForm(false)
+        props.setTriggerUpdate(true)
       }
 
 
@@ -70,12 +72,8 @@ let ClosePosForm = (props) => {
                                 </Card.Body>
                                 </Card>
         
-        
-
 
     )
-
-
 
 }
 

@@ -20,7 +20,7 @@ let Portfolio = (props) => {
     const [showEditForm, setShowEditForm] = useState(false)
     const [positionForEdit, setPositionForEdit] = useState(null)
     const [showCloseForm, setShowCloseForm] = useState(false)
-    const [positionForClose, setPositionForClose] = useState(false)
+    const [positionForClose, setPositionForClose] = useState(null)
     const [currentPriceEdit, setCurrentPrice] = useState(null)
     const [portfolioBalance, setPortfolioBalance] = useState(null)
     const [totalPnl, setTotalPnl] = useState(null)
@@ -130,7 +130,10 @@ let Portfolio = (props) => {
         let positionsCopy = [...props.positions]
         let newPositions = positionsCopy.filter(elem => elem.id != position_id)
         props.setPositions(newPositions)
-    }
+        let allPositionsCopy = [...props.allPositions]
+        let newAll = allPositionsCopy.filter(elem => elem.id != position_id)
+        props.setAllPositions(newAll)
+    }   
 
     const handleCloseClick = async (event) => {
         let positionID = event.target.id
@@ -140,12 +143,13 @@ let Portfolio = (props) => {
         setShowCloseForm(true)
     }
 
+
     return (
         <Container className="portfolio" xs={6}>
             { user && 
             <Tabs defaultActiveKey="portfolio-summary" id="portfolio-tabs" className="mb-3">
                     <Tab eventKey="portfolio-summary" title="Portfolio Summary">
-                        <PortfolioSummary portfolioBalance={portfolioBalance} totalPnl={totalPnl} pnlUsd={pnlUsd} date={props.date} positions={props.positions} triggerUpdate={props.triggerUpdate}/>
+                        <PortfolioSummary portfolioBalance={portfolioBalance} totalPnl={totalPnl} pnlUsd={pnlUsd} date={props.date} positions={props.positions} allPositions={props.allPositions} triggerUpdate={props.triggerUpdate}/>
                     </Tab>
                     <Tab eventKey="positions" title="Positions" className="tabs" >
                     { !showEditForm ?    
@@ -170,7 +174,8 @@ let Portfolio = (props) => {
                         }
 
                         { showCloseForm && 
-                            <ClosePosForm setShowCloseForm={setShowCloseForm} positionForClose={positionForClose} positions={props.positions} setPositions={props.setPositions} closedPositions={props.closedPositions} setClosedPositions={props.setClosedPositions}/>
+                            <ClosePosForm setShowCloseForm={setShowCloseForm} positionForClose={positionForClose} setTriggerUpdate={props.setTriggerUpdate}
+                                 positions={props.positions} setPositions={props.setPositions} closedPositions={props.closedPositions} setClosedPositions={props.setClosedPositions}/>
                         }
 
                         { (!props.positions || props.positions.length === 0) &&
@@ -185,10 +190,10 @@ let Portfolio = (props) => {
                         }
                     </Tab>
                     <Tab eventKey="new-pos" title="Add Position" unmountOnExit="true">
-                           <NewPosForm coinList={props.coinList} positions={props.positions} setPositions={props.setPositions} setTriggerUpdate={props.setTriggerUpdate}/> 
+                           <NewPosForm coinList={props.coinList} positions={props.positions} setPositions={props.setPositions} setTriggerUpdate={props.setTriggerUpdate} allPositions={props.allPositions} setAllPositions={props.setAllPositions}/> 
                     </Tab>
                     <Tab eventKey="sold" title="Closed">
-                               <ClosedPositionsList closedPositions={props.closedPositions} setClosedPositions={props.setClosedPositions}/>
+                               <ClosedPositionsList closedPositions={props.closedPositions} setClosedPositions={props.setClosedPositions} allPositions={props.allPositions} setAllPositions={props.setAllPositions}/>
                     </Tab>
                     </Tabs>
                 }
