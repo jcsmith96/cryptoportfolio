@@ -7,7 +7,7 @@
 .App {
   text-align: center;
   background-color: rgba(33, 37, 41, 0.425);
-  background-color: rgb(23, 38, 53);
+  background-color: #172635;
   background-size: cover;
 }
 
@@ -35,10 +35,7 @@
   color:red;
 }
 
-.profile-image {
-  border-radius: 50%;
-  width: 25px;
-}
+
 
 .login-header {
   color: white !important;
@@ -371,10 +368,30 @@
   font-size: 10px;
   color:rgba(191, 193, 194, 0.562);
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 7px;
   align-items: center;
+  padding-bottom: 5px;
 }
+
+.twitter-logo{
+  padding-right: 5px;
+}
+
+.news-pic-name {
+  
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.profile-image {
+  border-radius: 50%;
+  width: 30px;
+  padding-right: 7px;
+}
+
+
 
 .card-author {
   font-size: 10px !important;
