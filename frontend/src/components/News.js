@@ -17,8 +17,9 @@ let News = (props) => {
     const [tweets, setTweets] = useState(null)
     const [finalTweets, setFinalTweets] = useState(null)
 
+    console.log(tweets)
     useEffect(() => {
-        if (user && props.positions){
+        if (user && (props.positions.length > 0)){
             let fetchTweets = async () => {
             const url = 'http://localhost:8000/twitter'
 
@@ -38,10 +39,13 @@ let News = (props) => {
 
     }, [props.positions])
 
+
+
+
     useEffect(() => {
         let formattedTweets = []
 
-        if (tweets) {
+        if (tweets && (props.positions.length > 0)) {
             tweets.includes.users.forEach(elem => {
                 for (let i=0; i<tweets.data.length; i++){
                     if (elem.id === tweets.data[i].author_id){
@@ -53,7 +57,9 @@ let News = (props) => {
         }
 
     }, [tweets])
-    
+
+   
+    console.log(tweets)
 
 let renderTweets = () => {
         return finalTweets.map((elem, index) => {
@@ -138,16 +144,16 @@ let renderTweets = () => {
         <Container className="news">
             
             <div className='news-div'>
-                
-           { finalTweets  ? 
-            renderTweets()
-            :
-            <div>
+                <div>
+           { finalTweets  &&
+           
+         
+                renderTweets()
 
+    
+           }
             </div>
-            }
-          </div>
-            
+            </div>
             </Container>
     )
 

@@ -365,7 +365,7 @@
 }
 
 .news-card-title {
-  font-size: 10px;
+  font-size: 12px;
   color:rgba(191, 193, 194, 0.562);
   display: flex;
   justify-content: space-evenly;
@@ -394,8 +394,8 @@
 
 
 .card-author {
-  font-size: 10px !important;
-  color:rgba(191, 193, 194, 0.562);
+  font-size: 11px !important;
+  color:rgba(191, 193, 194, 0.713);
 }
 
 .news-body {

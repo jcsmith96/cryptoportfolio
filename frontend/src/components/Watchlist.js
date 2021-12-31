@@ -14,6 +14,7 @@ let Watchlist = (props) => {
     const [watchlist, setWatchlist] = useState(null)
     const [watchlistData, setWatchlistData] = useState(null)
 
+
    // SETS USER'S WATCHLIST
         useEffect(() => {
             if (user) {
@@ -111,7 +112,7 @@ let Watchlist = (props) => {
             
             </div>
                 }
-            <CoinDropDown coinList={props.coinList} watchlist={watchlist} handleAddWatchItem={handleAddWatchItem} buttonLabel={"ADD"}></CoinDropDown>
+            <CoinDropDown coinList={props.coinList} watchlist={watchlist} handleAddWatchItem={handleAddWatchItem} buttonLabel={"+ WATCHLIST"}></CoinDropDown>
         </Container>
     )
 }
