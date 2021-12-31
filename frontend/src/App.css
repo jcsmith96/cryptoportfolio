@@ -11,6 +11,8 @@
   background-size: cover;
 }
 
+
+
 .login-div {
   margin: auto;
   margin-top: 100px;
@@ -31,6 +33,11 @@
 
 .login-error-message {
   color:red;
+}
+
+.profile-image {
+  border-radius: 50%;
+  width: 25px;
 }
 
 .login-header {
@@ -67,6 +74,7 @@
   border: solid black;
   margin-left: 80px;
   min-width: 67vh;
+  max-width: 67vh;
   background-color: rgba(33,37,41); 
   height: 80vh !important;
   border-radius: 5%;
@@ -294,13 +302,13 @@
 }
 
 .news-div {
-  margin-top: 20px;
+  margin-top: 10px;
 
 }
 
 
 .card-title {
-  font-size: 13px;
+  font-size: 10px;
 }
 
 
@@ -359,8 +367,17 @@
   width: 100px;
 }
 
+.news-card-title {
+  font-size: 10px;
+  color:rgba(191, 193, 194, 0.562);
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  align-items: center;
+}
+
 .card-author {
-  font-size: 8px !important;
+  font-size: 10px !important;
   color:rgba(191, 193, 194, 0.562);
 }
 
@@ -368,12 +385,12 @@
   padding-top: 8px!important;
 }
 
-.card-title a {
+.news-card-title a {
   text-decoration: none !important;
   color: white;
 }
 
-.card-title:hover a {
+.news-card-title:hover a {
   color:rgba(191, 193, 194, 0.562);
 }
 

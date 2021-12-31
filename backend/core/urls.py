@@ -5,3 +5,4 @@ urlpatterns = [
     path('current_user/', current_user),
     path('users/', UserList.as_view())
 ]
+

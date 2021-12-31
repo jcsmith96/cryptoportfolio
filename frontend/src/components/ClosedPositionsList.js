@@ -64,12 +64,8 @@ let ClosedPositionsList = (props) => {
         await BackendAPI.deleteClosedPosition(localStorage.getItem("auth-user"), closed_id)
         let closedPositionsCopy = [...props.closedPositions]
         let newClosed = closedPositionsCopy.filter(elem => elem.id != closed_id)
+        props.setClosedPositions(newClosed)
 
-                if (newClosed.length === 0){
-                    props.setClosedPositions(null)
-                } else {
-                props.setClosedPositions(newClosed)
-                }
         
         let positionId = closedForDelete.elem.position
         await BackendAPI.deleteUserPosition(localStorage.getItem("auth-user"), positionId)

@@ -31,8 +31,8 @@ let ClosePosForm = (props) => {
         let positionsCopy = [...props.positions]
         let newPositions = positionsCopy.filter(elem => elem.id !== positionID)
         props.setPositions(newPositions)
-        props.setShowCloseForm(false)
         props.setTriggerUpdate(true)
+        props.setShowCloseForm(false)
       }
 
 
